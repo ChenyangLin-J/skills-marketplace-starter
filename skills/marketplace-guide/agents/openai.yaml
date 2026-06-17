@@ -1,0 +1,4 @@
+interface:
+  display_name: "Marketplace Guide"
+  short_description: "Help agents search, install, publish, manage access, and send feedback for Skills."
+  default_prompt: "Use $marketplace-guide to search, install, publish, manage, or send feedback for Skills Marketplace Starter."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Creator"
+  short_description: "Turn reusable workflows into triggerable, publishable, feedback-driven Marketplace Skills."
+  default_prompt: "Use $skill-creator to create, improve, test, or publish a Skills Marketplace Starter Skill."

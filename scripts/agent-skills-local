@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+CLI_DIR="$ROOT_DIR/code/cli"
+
+LOCAL_API_BASE_URL="${AGENT_SKILLS_LOCAL_API_BASE_URL:-http://localhost:3000}"
+LOCAL_HOME="${AGENT_SKILLS_LOCAL_HOME:-/tmp/agent-skills-local-home}"
+LOCAL_TARGET_ROOT="${AGENT_SKILLS_LOCAL_TARGET_ROOT:-/tmp/agent-skills-local-targets}"
+LOCAL_UV_CACHE="${AGENT_SKILLS_LOCAL_UV_CACHE_DIR:-/tmp/agent-skills-local-uv-cache}"
+LOCAL_UV_TOOL_DIR="${AGENT_SKILLS_LOCAL_UV_TOOL_DIR:-/tmp/agent-skills-local-uv-tools}"
+
+mkdir -p "$LOCAL_HOME" "$LOCAL_TARGET_ROOT" "$LOCAL_UV_CACHE" "$LOCAL_UV_TOOL_DIR"
+mkdir -p "$LOCAL_HOME/.agent-skills"
+
+LOCAL_CONFIG="$LOCAL_HOME/.agent-skills/config.toml"
+LOCAL_CONFIG_TMP="$LOCAL_CONFIG.$$"
+{
+  printf 'api_base_url = "%s"\n' "$LOCAL_API_BASE_URL"
+  printf 'default_agent = "ask"\n'
+  printf 'auto_update = false\n'
+  printf 'last_cli_update_check = 0\n'
+} >"$LOCAL_CONFIG_TMP"
+mv "$LOCAL_CONFIG_TMP" "$LOCAL_CONFIG"
+
+export HOME="$LOCAL_HOME"
+export AGENT_SKILLS_TARGET_ROOT="$LOCAL_TARGET_ROOT"
+export UV_CACHE_DIR="$LOCAL_UV_CACHE"
+export UV_TOOL_DIR="$LOCAL_UV_TOOL_DIR"
+
+uv run --project "$CLI_DIR" agent-skills "$@"

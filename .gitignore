@@ -1,0 +1,37 @@
+# 数据
+code/data/
+code/app/data/
+
+# Node
+code/app/node_modules/
+code/app/.next/
+code/app/.env.local
+code/app/out/
+code/app/build/
+code/app/dist/
+
+# Python
+code/cli/.venv/
+code/cli/__pycache__/
+code/cli/**/__pycache__/
+code/cli/*.egg-info/
+code/cli/dist/
+code/cli/build/
+
+# IDE
+.vscode/
+.idea/
+
+# 系统
+.DS_Store
+*.swp
+*.swo
+
+# 临时
+*.log
+*.tmp
+test-results/
+code/app/test-results/
+
+# 本地原始测试证据（docs/test-runs 只提交索引和关键摘录）
+local-evidence/

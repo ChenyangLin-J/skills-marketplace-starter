@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Skills Marketplace Demo · Transcript</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0d1117;
+        --bar: #161b22;
+        --border: #30363d;
+        --text: #d6deeb;
+        --muted: #8b949e;
+        --blue: #79c0ff;
+        --green: #7ee787;
+        --yellow: #f2cc60;
+        --red: #ff7b72;
+        --mono: "SF Mono", Monaco, Consolas, "Roboto Mono", monospace;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--mono);
+        font-size: 15px;
+        line-height: 1.58;
+      }
+
+      .titlebar {
+        position: sticky;
+        top: 0;
+        display: grid;
+        grid-template-columns: 80px 1fr;
+        align-items: center;
+        min-height: 38px;
+        padding: 0 14px;
+        border-bottom: 1px solid var(--border);
+        background: var(--bar);
+      }
+
+      .dots { display: flex; gap: 8px; }
+      .dots i { width: 11px; height: 11px; border-radius: 999px; }
+      .dots i:nth-child(1) { background: #ff5f56; }
+      .dots i:nth-child(2) { background: #ffbd2e; }
+      .dots i:nth-child(3) { background: #27c93f; }
+      .title { color: #c9d1d9; text-align: center; font-size: 13px; }
+
+      pre {
+        margin: 0;
+        padding: 26px 30px 40px;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      .user { color: var(--blue); }
+      .agent { color: var(--green); }
+      .tool { color: var(--yellow); }
+      .out { color: #c9d1d9; }
+      .muted { color: var(--muted); }
+      .err { color: var(--red); }
+      .ok { color: var(--green); }
+
+      @media (max-width: 760px) {
+        body { font-size: 13px; }
+        pre { padding: 18px 16px 28px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="titlebar">
+      <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="title">用户一句话，Agent 自动找 Skill、安装、使用和反馈</div>
+    </div>
+
+    <pre><span class="muted">场景 1 / 用户想知道市场里有什么</span>
+<span class="user">User</span>
+Skills 市场有什么？
+
+<span class="agent">Agent</span>
+我来查一下当前 Marketplace。
+
+<span class="tool">Bash(agent-skills list)</span>
+<span class="out">共 4 个 Skill
+
+@community/marketplace-guide   Marketplace 使用指南
+@community/skill-creator       帮你把经验整理成可发布 Skill
+@demo/hello-world              最小安装和更新样例
+@demo/report-writer            把笔记、分析或研究整理成报告</span>
+
+<span class="agent">Agent</span>
+现在这个 starter 里有 4 个演示 Skill。你可以先装 guide 了解市场，也可以装 report-writer 体验“用户说目标，Agent 找能力”的流程。
+
+
+<span class="muted">场景 2 / 用户只说目标，Agent 搜索并询问是否安装</span>
+<span class="user">User</span>
+我要写一份项目报告。
+
+<span class="agent">Agent</span>
+我先看 Marketplace 里有没有适合写报告的 Skill。
+
+<span class="tool">Bash(agent-skills search report)</span>
+<span class="out">共 1 条结果
+┏━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━┓
+┃ Skill                ┃ 作者   ┃ 描述                               ┃ 装机 ┃
+┡━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━┩
+│ @demo/report-writer  │ demo   │ Turn notes or findings into report │ 0    │
+└──────────────────────┴────────┴────────────────────────────────────┴──────┘</span>
+
+<span class="tool">Bash(agent-skills info @demo/report-writer)</span>
+<span class="out">@demo/report-writer v0.1.0
+Use when the user wants to turn notes, analysis, meeting outcomes, or research into a clear written report.
+
+Workflow:
+1. Ask for audience and purpose if unclear.
+2. Extract conclusion, evidence, risks, and next steps.
+3. Draft with conclusion first.
+4. Name missing sources instead of inventing them.</span>
+
+<span class="agent">Agent</span>
+我找到了 <span class="ok">@demo/report-writer</span>。它适合把零散笔记或分析结论整理成项目报告。
+
+要安装到你当前使用的 Agent 吗？
+
+<span class="user">User</span>
+安装吧。
+
+<span class="tool">Bash(agent-skills install @demo/report-writer --target codex)</span>
+<span class="out">Downloading @demo/report-writer v0.1.0 ...
+╭────────────────────────────────────────────╮
+│ ✓ Installed @demo/report-writer v0.1.0     │
+│ Agent: codex                               │
+│ Path: ~/.codex/skills/report-writer        │
+╰────────────────────────────────────────────╯</span>
+
+<span class="agent">Agent</span>
+装好了。现在把你的报告材料发给我，我会按 report-writer 的结构整理：结论、证据、风险和下一步。
+
+
+<span class="muted">场景 3 / 使用失败后把反馈带回 creator</span>
+<span class="user">User</span>
+这个报告 Skill 没有问受众，直接开始写了。
+
+<span class="agent">Agent</span>
+这是一个可改进的 Skill 行为。我会把复现信息反馈给作者，方便下一版补充“先确认受众”的规则。
+
+<span class="tool">Bash(agent-skills feedback @demo/report-writer \
+  --type issue \
+  --agent codex \
+  --message "Report writer should ask for audience before drafting" \
+  --context "User asked for a project report. The Skill started drafting without confirming audience or purpose.")</span>
+<span class="out">╭────────────────────────────────────────╮
+│ ✓ Feedback submitted #1                │
+│ Skill: @demo/report-writer v0.1.0      │
+╰────────────────────────────────────────╯</span>
+
+<span class="agent">Agent</span>
+反馈已提交。creator 可以在 Web 详情页或「My Skills」里看到这条真实失败样例，并据此更新 Skill。</pre>
+  </body>
+</html>
