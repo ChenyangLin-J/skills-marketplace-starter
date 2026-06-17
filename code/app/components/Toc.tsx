@@ -12,7 +12,7 @@ function slugify(text: string): string {
   return text
     .toLowerCase()
     .trim()
-    .replace(/[^\w一-龥]+/g, '-')
+    .replace(/[^\w-]+/g, '-')
     .replace(/^-+|-+$/g, '')
 }
 
@@ -48,7 +48,7 @@ export function Toc({ markdown }: { markdown: string }) {
 
   useEffect(() => {
     if (headings.length === 0) return
-    // 给 markdown 里渲染出来的 h2/h3 装 id (react-markdown 默认不给 id)
+    // Add ids to h2/h3 rendered from markdown because react-markdown does not add them.
     const main = document.querySelector('[data-toc-target="true"]')
     if (!main) return
     const md = main.querySelectorAll<HTMLHeadingElement>('h2, h3')
@@ -56,17 +56,17 @@ export function Toc({ markdown }: { markdown: string }) {
     md.forEach((el) => {
       if (idx >= headings.length) return
       const expected = headings[idx]
-      // 简单按顺序对位置:解析顺序和渲染顺序应当一致
+      // Match by order; parse order and render order should be the same.
       if (el.tagName === `H${expected.level}`) {
         el.id = expected.id
-        // 给一点 scroll margin 让 sticky header 不挡
+        // Add scroll margin so the sticky header does not cover the heading.
         el.style.scrollMarginTop = '88px'
         idx++
       }
     })
     const observer = new IntersectionObserver(
       (entries) => {
-        // 取靠近顶部的可见 heading
+        // Pick the visible heading closest to the top.
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
@@ -85,8 +85,8 @@ export function Toc({ markdown }: { markdown: string }) {
   if (headings.length === 0) return null
 
   return (
-    <nav className="toc" aria-label="目录">
-      <div className="toc-title">📑 目录</div>
+    <nav className="toc" aria-label="Table of contents">
+      <div className="toc-title">📑 Contents</div>
       <ul className="toc-list">
         {headings.map((h) => (
           <li

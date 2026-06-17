@@ -23,8 +23,8 @@ export default function HeroDemoPage() {
             textAlign: 'center',
           }}
         >
-          Demo 页 — 下方原本是「本周热门 / 官方推荐 / 全部 Skill」列表，
-          这里省略以便对比 Hero 改造效果。访问 <code>/</code> 查看现版。
+          Demo page. The real homepage continues with Trending / Recommended / All Skills lists.
+          They are omitted here to compare the hero treatment. Visit <code>/</code> for the current page.
         </div>
       </main>
     </>

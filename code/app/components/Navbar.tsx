@@ -7,13 +7,13 @@ import { useDevMode } from './DevModeContext'
 import { AnchorScrollLink } from './AnchorScrollLink'
 
 const NAV_ITEMS = [
-  { key: 'wall', label: '发布墙', href: '/#explore' },
-  { key: 'docs', label: '教程文档', href: '/docs' },
-  { key: 'publish', label: '我要发布', href: '/publish' },
+  { key: 'wall', label: 'Explore', href: '/#explore' },
+  { key: 'docs', label: 'Docs', href: '/docs' },
+  { key: 'publish', label: 'Publish', href: '/publish' },
 ] as const
 
 const DEV_NAV_ITEMS = [
-  { key: 'dashboard', label: '数据', href: '/dashboard' },
+  { key: 'dashboard', label: 'Data', href: '/dashboard' },
 ] as const
 
 type CurrentUser = {
@@ -78,7 +78,7 @@ export function Navbar() {
       <nav className="navbar-actions">
         {NAV_ITEMS.map((it) => {
           const isDocsStored = it.key === 'docs' && guideStored
-          const label = isDocsStored ? '已收进教程' : it.label
+          const label = isDocsStored ? 'Saved to docs' : it.label
           const className = `navbar-link${isActive(pathname, it.href) ? ' active' : ''}${
             isDocsStored ? ' guide-stored' : ''
           }`
@@ -107,7 +107,7 @@ export function Navbar() {
               key={it.key}
               href={it.href}
               className={`navbar-link dev${isActive(pathname, it.href) ? ' active' : ''}`}
-              title="v1.5 上线"
+              title="v1.5 preview"
             >
               {it.label}
             </Link>
@@ -117,7 +117,7 @@ export function Navbar() {
             href="/admin"
             className={`navbar-link${isActive(pathname, '/admin') ? ' active' : ''}`}
           >
-            权限
+            Admin
           </Link>
         )}
         {user ? (
@@ -126,12 +126,12 @@ export function Navbar() {
               href="/mine"
               className={`navbar-link${isActive(pathname, '/mine') ? ' active' : ''}`}
             >
-              我的
+              Mine
             </Link>
             <Link className="navbar-user-name" href="/mine">
               {userLabel}
             </Link>
-            <a className="navbar-avatar" href="/api/auth/logout" title={`${userLabel} · 退出登录`}>
+            <a className="navbar-avatar" href="/api/auth/logout" title={`${userLabel} · Sign out`}>
               {user.avatar_url ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={user.avatar_url} alt={userLabel} />

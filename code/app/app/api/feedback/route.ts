@@ -11,7 +11,7 @@ export const runtime = 'nodejs'
 
 export async function GET(req: NextRequest) {
   const currentUser = getAuthenticatedUserFromRequest(req)
-  if (!currentUser) return apiError(401, 'unauthorized', '请先登录后再查看反馈')
+  if (!currentUser) return apiError(401, 'unauthorized', 'Log in before viewing feedback.')
 
   const sp = req.nextUrl.searchParams
   const skillSlug = (sp.get('skill') || '').trim()
@@ -19,9 +19,9 @@ export async function GET(req: NextRequest) {
 
   if (skillSlug) {
     const skill = getSkillBySlug(skillSlug, currentUser.open_id)
-    if (!skill) return apiError(404, 'not_found', `skill ${skillSlug} 不存在`)
+    if (!skill) return apiError(404, 'not_found', `skill ${skillSlug} does not exist`)
     if (!canManageSkill(skill, currentUser)) {
-      return apiError(403, 'forbidden', '只有 Skill 管理者可以查看反馈')
+      return apiError(403, 'forbidden', 'Only Skill managers can view feedback.')
     }
   }
 

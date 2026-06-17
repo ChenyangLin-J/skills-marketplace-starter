@@ -18,9 +18,9 @@ export default async function MinePage() {
     return (
       <main className="mine-page">
         <section className="mine-login-panel">
-          <span className="docs-kicker">我的管理中心</span>
-          <h1>登录后查看你的 Skill 和反馈</h1>
-          <p>发布、更新、下架和反馈收件箱都按当前登录用户归属。</p>
+          <span className="docs-kicker">Creator Console</span>
+          <h1>Sign in to manage your Skills and feedback</h1>
+          <p>Publishing, updates, archiving, and feedback inboxes are scoped to the signed-in user.</p>
           <a className="mine-primary-action" href="/api/auth/dev-login?next=%2Fmine">
             Demo login
           </a>
@@ -48,27 +48,27 @@ export default async function MinePage() {
     <main className="mine-page">
       <section className="mine-hero">
         <div>
-          <span className="docs-kicker">我的管理中心</span>
+          <span className="docs-kicker">Creator Console</span>
           <h1>{currentUser.name}</h1>
           <p>@{currentUser.handle}</p>
         </div>
         <Link className="mine-primary-action" href="/publish">
-          发布 Skill
+          Publish Skill
         </Link>
       </section>
 
-      <section className="mine-stat-grid" aria-label="我的 Skill 概览">
-        <StatCard label="管理 Skill" value={stats.totalSkills} detail={`${stats.activeSkills} 个上架中`} />
-        <StatCard label="总装机" value={stats.installCount} detail="当前管理范围" />
-        <StatCard label="总点赞" value={stats.likeCount} detail="当前管理范围" />
-        <StatCard label="收到反馈" value={stats.openFeedbackCount} detail="open 状态" />
+      <section className="mine-stat-grid" aria-label="My Skills overview">
+        <StatCard label="Managed Skills" value={stats.totalSkills} detail={`${stats.activeSkills} active`} />
+        <StatCard label="Total installs" value={stats.installCount} detail="Managed scope" />
+        <StatCard label="Total likes" value={stats.likeCount} detail="Managed scope" />
+        <StatCard label="Open feedback" value={stats.openFeedbackCount} detail="Open status" />
       </section>
 
       <div className="mine-layout">
         <section className="mine-main-column">
-          <SectionHeader title="我管理的 Skill" count={activeSkills.length} />
+          <SectionHeader title="Managed Skills" count={activeSkills.length} />
           {activeSkills.length === 0 ? (
-            <EmptyState text="你还没有上架中的 Skill。" actionHref="/publish" actionLabel="发布第一个 Skill" />
+            <EmptyState text="You do not have active Skills yet." actionHref="/publish" actionLabel="Publish the first Skill" />
           ) : (
             <div className="mine-skill-list">
               {activeSkills.map((skill) => (
@@ -77,9 +77,9 @@ export default async function MinePage() {
             </div>
           )}
 
-          <SectionHeader title="已下架" count={archivedSkills.length} />
+          <SectionHeader title="Archived" count={archivedSkills.length} />
           {archivedSkills.length === 0 ? (
-            <EmptyState text="当前没有已下架的 Skill。" />
+            <EmptyState text="No archived Skills yet." />
           ) : (
             <div className="mine-skill-list">
               {archivedSkills.map((skill) => (
@@ -90,9 +90,9 @@ export default async function MinePage() {
         </section>
 
         <aside className="mine-side-column">
-          <SectionHeader title="收到的反馈" count={feedbackItems.length} />
+          <SectionHeader title="Received feedback" count={feedbackItems.length} />
           {feedbackItems.length === 0 ? (
-            <EmptyState text="还没有收到反馈。" />
+            <EmptyState text="No feedback yet." />
           ) : (
             <div className="mine-feedback-list">
               {feedbackItems.map((item) => (
@@ -154,7 +154,7 @@ function SkillManageRow({ skill }: { skill: Skill }) {
         <div className="mine-skill-title">
           <strong>{skill.name}</strong>
           <span className={`skill-status ${skill.status}`}>
-            {skill.status === 'archived' ? '已下架' : '上架中'}
+            {skill.status === 'archived' ? 'Archived' : 'Active'}
           </span>
         </div>
         <p>{skill.description}</p>
@@ -167,8 +167,8 @@ function SkillManageRow({ skill }: { skill: Skill }) {
         </div>
       </div>
       <div className="mine-row-actions">
-        <Link href={mineDetailHref}>详情</Link>
-        <Link href={manageHref}>管理</Link>
+        <Link href={mineDetailHref}>Details</Link>
+        <Link href={manageHref}>Manage</Link>
       </div>
     </article>
   )

@@ -7,7 +7,7 @@ export const runtime = 'nodejs'
 export async function DELETE(req: NextRequest) {
   const deleted = deleteCliTokenFromRequest(req)
   if (!deleted) {
-    return apiError(401, 'unauthorized', 'CLI 未登录或登录已失效')
+    return apiError(401, 'unauthorized', 'CLI is not logged in or the login has expired')
   }
   return NextResponse.json({ ok: true })
 }

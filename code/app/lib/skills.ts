@@ -96,7 +96,7 @@ function toSkill(row: Row): Skill {
 
 export type ListOpts = {
   q?: string
-  /** 默认搜 name/description/tags；fulltext=true 时连 SKILL.md 全文一起搜 */
+  /** Default search covers name/description/tags; fulltext=true also searches SKILL.md. */
   fulltext?: boolean
   category?: string
   sort?: string
@@ -199,7 +199,7 @@ export function checkSkillInstallAccess(
       allowed: false,
       status: 401,
       code: 'unauthorized',
-      message: '请先登录后再下载或安装这个 Skill',
+      message: 'Log in before downloading or installing this Skill.',
     }
   }
   if (skill.install_access === 'company') return { allowed: true }
@@ -208,7 +208,7 @@ export function checkSkillInstallAccess(
     allowed: false,
     status: 403,
     code: 'forbidden',
-    message: '你当前账号没有安装这个 Skill 的权限',
+    message: 'Your account does not have permission to install this Skill.',
   }
 }
 
@@ -224,7 +224,7 @@ export function checkSkillVisibility(
         allowed: false,
         status: 401,
         code: 'unauthorized',
-        message: '请先登录后再查看这个 Skill',
+        message: 'Log in before viewing this Skill.',
       }
     }
     if (hasRestrictedAccess(skill, user)) return { allowed: true }
@@ -232,7 +232,7 @@ export function checkSkillVisibility(
       allowed: false,
       status: 403,
       code: 'forbidden',
-      message: '你当前账号没有查看这个 Skill 的权限',
+      message: 'Your account does not have permission to view this Skill.',
     }
   }
   return checkSkillInstallAccess(skill, user)
@@ -281,12 +281,12 @@ export function listSkills(
   }
   if (opts.q && opts.q.trim()) {
     if (opts.fulltext) {
-      // 全文：name / description / tags(json string) / readme 都搜
+      // Full text: search name, description, tags JSON, and readme.
       where.push(
         "(s.name LIKE @q OR s.description LIKE @q OR COALESCE(s.tags,'') LIKE @q OR COALESCE(s.readme,'') LIKE @q)"
       )
     } else {
-      // 默认：只搜 name / description / tags
+      // Default: search name, description, and tags.
       where.push(
         "(s.name LIKE @q OR s.description LIKE @q OR COALESCE(s.tags,'') LIKE @q)"
       )

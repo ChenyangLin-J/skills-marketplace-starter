@@ -1,7 +1,7 @@
 ---
 name: marketplace-guide
 version: 0.1.0
-description: Skills Marketplace Starter / agent-skills CLI guide. Use when the user asks what skills are available, how to install or update a Skill, how to publish or manage a Skill, how to fill the Web publish page, how to change install access or visibility, how to grant users access, how to send or view feedback, how to handle @author/name slugs, how to install or update the CLI, how one-click scripts work, where Codex/Claude/Cursor/Antigravity install Skills, or why a Marketplace Skill does not trigger or does not work. Trigger phrases include "Skills 市场有什么", "what skills are available", "install a skill", "publish a skill", "agent-skills", "skill feedback", and "skill not working".
+description: Skills Marketplace Starter / agent-skills CLI guide. Use when the user asks what skills are available, how to install or update a Skill, how to publish or manage a Skill, how to fill the Web publish page, how to change install access or visibility, how to grant users access, how to send or view feedback, how to handle @author/name slugs, how to install or update the CLI, how one-click scripts work, where Codex/Claude/Cursor/Antigravity install Skills, or why a Marketplace Skill does not trigger or does not work. Trigger phrases include "what skills are available", "find a PDF skill", "install a skill", "publish a skill", "agent-skills", "skill feedback", and "skill not working".
 ---
 
 # Marketplace Guide
@@ -32,13 +32,13 @@ Answer concisely. Give the command first, then one sentence of explanation. Do n
 
 Assume the user means this Marketplace when they say:
 
-- `Skills 市场有什么`, `marketplace 有哪些 skill`, `what skills are available`
-- `找一个能做 PDF/报告/SQL/测试 的 skill`
-- `安装 @author/name`, `更新 skill`, `卸载 skill`, `这个 skill 有新版本吗`
-- `发布页怎么填`, `这个 Skill 是做什么的怎么写`, `我发布了哪些 skill`, `我收到的反馈`
-- `改权限`, `谁能安装`, `可见性`, `限定人员`, `access grant`
-- `这个从平台装的 skill 报错了`, `skill 不触发`, `不好用`, `给 skill 提反馈`
-- `一键脚本`, `PowerShell`, `Codex/Claude/Cursor/Antigravity 安装目录`
+- `what skills are available`, `what is in the marketplace`, `list marketplace skills`
+- `find a Skill for PDF/report/SQL/testing`
+- `install @author/name`, `update a skill`, `uninstall a skill`, `is this skill outdated`
+- `how do I fill the publish page`, `what should this Skill description say`, `which Skills do I manage`, `show my feedback`
+- `change access`, `who can install`, `visibility`, `restricted users`, `access grant`
+- `a marketplace Skill failed`, `the Skill did not trigger`, `this Skill is not useful`, `send feedback`
+- `one-click script`, `PowerShell`, `Codex/Claude/Cursor/Antigravity install directory`
 
 Only answer about the current agent session's already-loaded Skills when the user explicitly asks "what Skills are loaded in this conversation/session?"
 

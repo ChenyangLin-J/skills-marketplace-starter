@@ -81,10 +81,10 @@ def parse_agent_selection(selection: str) -> tuple[list[str], list[str], bool]:
 
 
 def format_agent_menu(default: str | None = None) -> str:
-    suffix = f"默认 {default}" if default else "可多选"
+    suffix = f"default {default}" if default else "multiple selections allowed"
     return (
-        "选择安装目标（1 Codex / 2 Claude / 3 Cursor / 4 Antigravity / 5 Skip；"
-        f"支持 12、1,2、all；{suffix}）"
+        "Choose install targets (1 Codex / 2 Claude / 3 Cursor / 4 Antigravity / 5 Skip; "
+        f"supports 12, 1,2, all; {suffix})"
     )
 
 
@@ -96,7 +96,7 @@ def resolve_agents(target_override: str | None) -> list[str]:
         if invalid or not targets:
             supported = ", ".join([*VALID_AGENTS, "1", "2", "3", "4", "all", "skip"])
             bad = ", ".join(invalid) if invalid else target_override
-            raise ValueError(f"未知 agent: {bad}。支持: {supported}")
+            raise ValueError(f"Unknown agent: {bad}. Supported: {supported}")
         return targets
 
     cfg = cfg_mod.load_config()
@@ -115,10 +115,10 @@ def resolve_agents(target_override: str | None) -> list[str]:
     if invalid or not targets:
         supported = "1 / 2 / 3 / 4 / 5 / all / " + " / ".join(VALID_AGENTS)
         bad = ", ".join(invalid) if invalid else chosen
-        raise ValueError(f"未知 agent: {bad}。支持: {supported}")
+        raise ValueError(f"Unknown agent: {bad}. Supported: {supported}")
 
     remember = Prompt.ask(
-        "记住第一个目标为默认?（之后用 [cyan]agent-skills config set default_agent <name>[/cyan] 改）",
+        "Remember the first target as default? (change later with [cyan]agent-skills config set default_agent <name>[/cyan])",
         choices=["y", "n"],
         default="y",
     )
@@ -130,5 +130,5 @@ def resolve_agents(target_override: str | None) -> list[str]:
 def resolve_agent(target_override: str | None) -> str:
     targets = resolve_agents(target_override)
     if not targets:
-        raise ValueError("未选择安装目标")
+        raise ValueError("No install target selected")
     return targets[0]

@@ -30,10 +30,10 @@ def install_zip(
 
     if dest.exists():
         if not yes and not Confirm.ask(
-            f"[yellow]目标已存在[/yellow]: {dest}\n是否覆盖?",
+            f"[yellow]Target already exists[/yellow]: {dest}\nOverwrite?",
             default=False,
         ):
-            rprint("[yellow]已取消安装[/yellow]")
+            rprint("[yellow]Install cancelled[/yellow]")
             raise typer.Exit(code=0)
         shutil.rmtree(dest)
 
@@ -41,10 +41,10 @@ def install_zip(
     try:
         with zipfile.ZipFile(io.BytesIO(zip_bytes)) as zf:
             for member in zf.namelist():
-                # 防 zip slip
+                # Prevent zip slip
                 resolved = (dest / member).resolve()
                 if not str(resolved).startswith(str(dest.resolve())):
-                    raise RuntimeError(f"非法 zip 路径: {member}")
+                    raise RuntimeError(f"Unsafe zip path: {member}")
             zf.extractall(dest)
     except Exception:
         shutil.rmtree(dest, ignore_errors=True)

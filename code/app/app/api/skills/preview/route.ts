@@ -39,17 +39,17 @@ function frontmatterText(fm: Record<string, unknown>, key: string): string {
 
 export async function POST(req: NextRequest) {
   const currentUser = getAuthenticatedUserFromRequest(req)
-  if (!currentUser) return apiError(401, 'unauthorized', '请先登录后再预检 Skill')
+  if (!currentUser) return apiError(401, 'unauthorized', 'Log in before previewing a Skill.')
 
   const ct = req.headers.get('content-type') || ''
   if (!ct.includes('multipart/form-data')) {
-    return apiError(400, 'validation_failed', '需要 multipart/form-data')
+    return apiError(400, 'validation_failed', 'multipart/form-data is required')
   }
 
   const form = await req.formData()
   const file = form.get('file')
   if (!file || !(file instanceof File)) {
-    return apiError(400, 'validation_failed', '缺少 file')
+    return apiError(400, 'validation_failed', 'Missing file')
   }
 
   let draft
@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
     displayDescription || compactDescription(draft.description)
   const errors: Record<string, string> = {}
   if (draft.name && !isValidName(draft.name)) {
-    errors.name = 'name 仅支持 [a-z0-9-]，长度 1-50'
+    errors.name = 'name must match [a-z0-9-] and be 1-50 characters'
   }
 
   return NextResponse.json({

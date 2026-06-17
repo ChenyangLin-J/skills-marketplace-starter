@@ -31,13 +31,13 @@ function accessBody(slug: string) {
 
 function validateGrantHandles(value: unknown): { handles?: string[]; error?: string } {
   if (value === undefined) return {}
-  if (!Array.isArray(value)) return { error: 'grants 必须是 handle 字符串数组' }
+  if (!Array.isArray(value)) return { error: 'grants must be an array of handle strings' }
 
   const handles: string[] = []
   for (const item of value) {
-    if (typeof item !== 'string') return { error: 'grants 必须是 handle 字符串数组' }
+    if (typeof item !== 'string') return { error: 'grants must be an array of handle strings' }
     const handle = normalizeAccessHandle(item)
-    if (!handle) return { error: `无效 handle: ${item}` }
+    if (!handle) return { error: `Invalid handle: ${item}` }
     handles.push(handle)
   }
   return { handles: [...new Set(handles)] }
@@ -45,13 +45,13 @@ function validateGrantHandles(value: unknown): { handles?: string[]; error?: str
 
 async function requireManagedSkill(req: NextRequest, rawSlug: string) {
   const currentUser = getAuthenticatedUserFromRequest(req)
-  if (!currentUser) return { error: apiError(401, 'unauthorized', '请先登录后再管理权限') }
+  if (!currentUser) return { error: apiError(401, 'unauthorized', 'Log in before managing access.') }
 
   const slug = decodeSlug(rawSlug)
   const skill = getSkillBySlug(slug, currentUser.open_id)
-  if (!skill) return { error: apiError(404, 'not_found', `skill ${slug} 不存在`) }
+  if (!skill) return { error: apiError(404, 'not_found', `skill ${slug} does not exist`) }
   if (!canManageSkill(skill, currentUser)) {
-    return { error: apiError(403, 'forbidden', '只能管理自己发布或归属给自己的 Skill') }
+    return { error: apiError(403, 'forbidden', 'You can only manage Skills you published or own.') }
   }
   return { currentUser, slug, skill }
 }
@@ -65,7 +65,7 @@ export async function GET(
   if ('error' in managed) return managed.error
 
   const body = accessBody(managed.slug)
-  if (!body) return apiError(404, 'not_found', `skill ${managed.slug} 不存在`)
+  if (!body) return apiError(404, 'not_found', `skill ${managed.slug} does not exist`)
   return NextResponse.json(body)
 }
 
@@ -85,7 +85,7 @@ export async function PATCH(
   try {
     body = await req.json()
   } catch {
-    return apiError(400, 'validation_failed', '需要 JSON body')
+    return apiError(400, 'validation_failed', 'JSON body is required')
   }
 
   const errs: Record<string, string> = {}
@@ -95,15 +95,15 @@ export async function PATCH(
   const grants = validateGrantHandles(body.grants)
 
   if (installAccess !== undefined && !INSTALL_ACCESS_VALUES.includes(installAccess as InstallAccess)) {
-    errs.install_access = `install_access 必须是 ${INSTALL_ACCESS_VALUES.join(' / ')}`
+    errs.install_access = `install_access must be ${INSTALL_ACCESS_VALUES.join(' / ')}`
   }
   if (visibility !== undefined && !SKILL_VISIBILITY_VALUES.includes(visibility as SkillVisibility)) {
-    errs.visibility = `visibility 必须是 ${SKILL_VISIBILITY_VALUES.join(' / ')}`
+    errs.visibility = `visibility must be ${SKILL_VISIBILITY_VALUES.join(' / ')}`
   }
   if (grants.error) errs.grants = grants.error
 
   if (Object.keys(errs).length > 0) {
-    return apiError(400, 'validation_failed', '字段校验失败', errs)
+    return apiError(400, 'validation_failed', 'Field validation failed', errs)
   }
 
   updateSkillAccess(managed.slug, {

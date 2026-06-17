@@ -16,10 +16,10 @@ export async function POST(
   const viewerId = userIdOrAnonymous(currentUser)
   const skill = getSkillBySlug(slug, viewerId)
   if (!skill) {
-    return apiError(404, 'not_found', `skill ${slug} 不存在`)
+    return apiError(404, 'not_found', `skill ${slug} does not exist`)
   }
   if (skill.status === 'archived') {
-    return apiError(410, 'archived', '这个 Skill 已下架，不能继续安装')
+    return apiError(410, 'archived', 'This Skill has been archived and cannot be installed.')
   }
   const decision = checkSkillInstallAccess(skill, currentUser)
   if (!decision.allowed) return apiError(decision.status, decision.code, decision.message)

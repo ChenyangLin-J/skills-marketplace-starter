@@ -6,8 +6,6 @@ difficulty: beginner
 duration: 4 min
 category: Using Skills
 order: 4
-screenshot: /tutorials/screenshots/skill-detail.png
-videoPlaceholder: Detail page walkthrough placeholder.
 ---
 
 ## Start With The Description
@@ -15,8 +13,6 @@ videoPlaceholder: Detail page walkthrough placeholder.
 The description should answer: **when should an agent use this Skill?**
 
 If it is vague, read the README and examples before installing.
-
-![Skill detail page](/tutorials/screenshots/skill-detail.png)
 
 ## Read The README
 

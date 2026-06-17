@@ -24,7 +24,7 @@ export async function GET(
   const slug = decodeSlug(raw)
   const currentUser = getAuthenticatedUserFromRequest(req)
   const skill = getSkillBySlug(slug, userIdOrAnonymous(currentUser))
-  if (!skill) return apiError(404, 'not_found', `skill ${slug} 不存在`)
+  if (!skill) return apiError(404, 'not_found', `skill ${slug} does not exist`)
   const decision = checkSkillVisibility(skill, currentUser)
   if (!decision.allowed) return apiError(decision.status, decision.code, decision.message)
   return NextResponse.json(skill)
@@ -35,14 +35,14 @@ export async function PATCH(
   ctx: { params: Promise<{ slug: string }> },
 ) {
   const currentUser = getAuthenticatedUserFromRequest(req)
-  if (!currentUser) return apiError(401, 'unauthorized', '请先登录后再编辑 Skill')
+  if (!currentUser) return apiError(401, 'unauthorized', 'Log in before editing this Skill.')
 
   const { slug: raw } = await ctx.params
   const slug = decodeSlug(raw)
   const skill = getSkillBySlug(slug, currentUser.open_id)
-  if (!skill) return apiError(404, 'not_found', `skill ${slug} 不存在`)
+  if (!skill) return apiError(404, 'not_found', `skill ${slug} does not exist`)
   if (!canManageSkill(skill, currentUser)) {
-    return apiError(403, 'forbidden', '只能管理自己发布或归属给自己的 Skill')
+    return apiError(403, 'forbidden', 'You can only manage Skills you published or own.')
   }
 
   let body: {
@@ -58,7 +58,7 @@ export async function PATCH(
   try {
     body = await req.json()
   } catch {
-    return apiError(400, 'validation_failed', '需要 JSON body')
+    return apiError(400, 'validation_failed', 'JSON body is required')
   }
 
   const errs: Record<string, string> = {}
@@ -75,15 +75,15 @@ export async function PATCH(
   const icon = typeof body.icon === 'string' ? body.icon.trim().slice(0, 40) : undefined
   const emoji = typeof body.emoji === 'string' ? body.emoji.trim().slice(0, 20) : undefined
 
-  if (description !== undefined && !description) errs.description = 'description 不能为空'
+  if (description !== undefined && !description) errs.description = 'description cannot be empty'
   if (category !== undefined && !VALID_CATEGORIES.has(category)) {
-    errs.category = `category 必须是 ${[...VALID_CATEGORIES].join(' / ')}`
+    errs.category = `category must be ${[...VALID_CATEGORIES].join(' / ')}`
   }
   if (icon !== undefined && icon && !isSingleEmoji(icon)) {
-    errs.icon = 'icon 只能是一个 emoji'
+    errs.icon = 'icon must be a single emoji'
   }
   if (emoji !== undefined && emoji && !isSingleEmoji(emoji)) {
-    errs.emoji = 'emoji 只能是一个 emoji'
+    errs.emoji = 'emoji must be a single emoji'
   }
 
   let tags: string[] | undefined
@@ -99,11 +99,11 @@ export async function PATCH(
       .filter(Boolean)
       .slice(0, 5)
   } else if (body.tags !== undefined) {
-    errs.tags = 'tags 必须是数组或逗号分隔字符串'
+    errs.tags = 'tags must be an array or a comma-separated string'
   }
 
   if (Object.keys(errs).length > 0) {
-    return apiError(400, 'validation_failed', '字段校验失败', errs)
+    return apiError(400, 'validation_failed', 'Field validation failed', errs)
   }
 
   const updated = updateSkillMetadata(slug, {
@@ -124,14 +124,14 @@ export async function DELETE(
   ctx: { params: Promise<{ slug: string }> },
 ) {
   const currentUser = getAuthenticatedUserFromRequest(req)
-  if (!currentUser) return apiError(401, 'unauthorized', '请先登录后再下架 Skill')
+  if (!currentUser) return apiError(401, 'unauthorized', 'Log in before archiving this Skill.')
 
   const { slug: raw } = await ctx.params
   const slug = decodeSlug(raw)
   const skill = getSkillBySlug(slug, currentUser.open_id)
-  if (!skill) return apiError(404, 'not_found', `skill ${slug} 不存在`)
+  if (!skill) return apiError(404, 'not_found', `skill ${slug} does not exist`)
   if (!canManageSkill(skill, currentUser)) {
-    return apiError(403, 'forbidden', '只能管理自己发布或归属给自己的 Skill')
+    return apiError(403, 'forbidden', 'You can only manage Skills you published or own.')
   }
   if (skill.status === 'archived') {
     return NextResponse.json(skill)

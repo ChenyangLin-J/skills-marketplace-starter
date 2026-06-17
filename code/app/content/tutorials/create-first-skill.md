@@ -6,8 +6,6 @@ difficulty: beginner
 duration: 8 min
 category: Creating Skills
 order: 5
-screenshot: /tutorials/screenshots/local-skill-folder.png
-videoPlaceholder: Skill folder creation recording placeholder.
 ---
 
 ## Minimal Folder
@@ -26,8 +24,6 @@ my-first-skill/
   scripts/
   assets/
 ```
-
-![Local Skill folder](/tutorials/screenshots/local-skill-folder.png)
 
 ## Minimal SKILL.md
 

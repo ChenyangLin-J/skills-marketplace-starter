@@ -6,8 +6,6 @@ difficulty: beginner
 duration: 5 min
 category: Using Skills
 order: 3
-screenshot: /tutorials/screenshots/skill-detail.png
-videoPlaceholder: Short run recording placeholder.
 ---
 
 ## You Usually Do Not Click Run
@@ -17,13 +15,13 @@ Most Skills run when your local agent decides the current task matches the Skill
 After installing `@community/marketplace-guide`, try asking your agent:
 
 ```txt
-Skills 市场有什么？
+What skills are available in the marketplace?
 ```
 
 After installing `@demo/report-writer`, try:
 
 ```txt
-我要写一份项目报告，帮我先看看有没有合适的 Skill。
+I need to write a project report. Can you check whether there is a suitable Skill first?
 ```
 
 ## Signs The Skill Worked

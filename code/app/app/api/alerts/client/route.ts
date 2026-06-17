@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
   try {
     body = (await req.json()) as ClientErrorBody
   } catch {
-    return NextResponse.json({ error: 'validation_failed', message: '需要 JSON body' }, { status: 400 })
+    return NextResponse.json({ error: 'validation_failed', message: 'JSON body is required' }, { status: 400 })
   }
 
   const type =

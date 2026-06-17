@@ -68,8 +68,8 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
             }}
           >
             <h2 className="section-title">
-              🔥 本周热门
-              <span className="section-subtitle">按周装机量</span>
+              Trending this week
+              <span className="section-subtitle">by weekly installs</span>
             </h2>
           </div>
           {weeklyTrending.length === 0 ? (
@@ -82,7 +82,7 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
                 borderRadius: 8,
               }}
             >
-              本周还没有装机数据，做第一个安装的人吧。
+              No installs yet. Be the first to try a seed Skill.
             </div>
           ) : (
             <div
@@ -110,8 +110,8 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
               }}
             >
               <h2 className="section-title">
-                ⭐ 官方推荐
-                <span className="section-subtitle">数分团队审核</span>
+                Curated picks
+                <span className="section-subtitle">maintainer reviewed</span>
               </h2>
             </div>
             <div
@@ -124,7 +124,7 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
                 textAlign: 'center',
               }}
             >
-              ⭐ 官方推荐 v1.5 启用 —— 装机数 ≥ 10 且无负面评论的 skill 会进入这里
+              Curated picks are enabled in the demo placeholder. Skills with strong usage and clean feedback can appear here.
             </div>
           </section>
         </DevPlaceholder>
@@ -139,10 +139,10 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
             }}
           >
             <h2 className="section-title">
-              {isSearchMode ? `🔍 搜索结果` : '📚 全部 Skill'}
+              {isSearchMode ? 'Search results' : 'All Skills'}
             </h2>
             <span className="section-action">
-              共 {total} 个 · 第 {safePage} / {totalPages} 页
+              {total} total · page {safePage} of {totalPages}
             </span>
           </div>
 
@@ -157,16 +157,16 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
             }}
           >
             <CategoryPill href={buildHref(q, '')} active={!category}>
-              全部
+              All
             </CategoryPill>
             {CATEGORIES.map((c) => (
               <CategoryPill key={c.value} href={buildHref(q, c.value)} active={category === c.value}>
-                {c.emoji} {c.label}
+                {c.label}
               </CategoryPill>
             ))}
           </div>
 
-          {/* 固定 3 行 × 3 列网格;不足 9 个时空格保留,空状态显示在网格之上 */}
+          {/* Fixed 3 x 3 grid; keep trailing space on short pages and show empty states above the grid. */}
           <div className="all-skills-grid">
             {allItems.length === 0 ? (
               <div
@@ -180,9 +180,9 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
                   background: 'var(--bg)',
                 }}
               >
-                <p style={{ fontSize: 16, marginBottom: 8 }}>未找到匹配的 skill</p>
+                  <p style={{ fontSize: 16, marginBottom: 8 }}>No matching Skill found</p>
                 <p style={{ fontSize: 13 }}>
-                  <Link href="/publish">发布第一个 skill →</Link>
+                  <Link href="/publish">Publish the first Skill {'->'}</Link>
                 </p>
               </div>
             ) : (
@@ -201,7 +201,7 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
               }}
             >
               <PageLink page={safePage - 1} disabled={safePage <= 1} q={q} category={category}>
-                ← 上一页
+                Previous
               </PageLink>
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
                 <PageLink
@@ -220,7 +220,7 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
                 q={q}
                 category={category}
               >
-                下一页 →
+                Next
               </PageLink>
             </div>
           )}

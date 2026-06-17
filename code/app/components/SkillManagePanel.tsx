@@ -181,7 +181,7 @@ export function SkillManagePanel({ skill }: Props) {
         const data = await res.json()
         if (cancelled) return
         if (!res.ok) {
-          setAccessError(data.message || data.error || '读取权限失败')
+          setAccessError(data.message || data.error || 'Failed to load access settings.')
           return
         }
         const handles = Array.isArray(data.grants)
@@ -204,7 +204,7 @@ export function SkillManagePanel({ skill }: Props) {
         )
         setAccessLoaded(true)
       } catch {
-        if (!cancelled) setAccessError('读取权限失败')
+        if (!cancelled) setAccessError('Failed to load access settings.')
       }
     }
     void loadAccess()
@@ -262,7 +262,7 @@ export function SkillManagePanel({ skill }: Props) {
       })
       const data = await res.json()
       if (!res.ok) {
-        setAccessError(data.message || data.error || '保存权限失败')
+        setAccessError(data.message || data.error || 'Failed to save access settings.')
         return
       }
       const handles = Array.isArray(data.grants)
@@ -270,7 +270,7 @@ export function SkillManagePanel({ skill }: Props) {
         : grantDraftHandles
       setGrantHandles(handles)
       setGrantDraftHandles(handles)
-      setAccessMessage('权限已保存')
+      setAccessMessage('Access settings saved.')
       setAccessEditing(false)
       router.refresh()
     } finally {
@@ -280,7 +280,7 @@ export function SkillManagePanel({ skill }: Props) {
 
   async function save() {
     if (!category) {
-      setError('请选择分类')
+      setError('Choose a category.')
       return
     }
     if (iconError) {
@@ -308,10 +308,10 @@ export function SkillManagePanel({ skill }: Props) {
       })
       const data = await res.json()
       if (!res.ok) {
-        setError(data.message || data.error || '保存失败')
+        setError(data.message || data.error || 'Failed to save changes.')
         return
       }
-      setMessage('已保存')
+      setMessage('Saved.')
       setEditing(false)
       router.refresh()
     } finally {
@@ -333,10 +333,10 @@ export function SkillManagePanel({ skill }: Props) {
       )
       const data = await res.json()
       if (!res.ok) {
-        setError(data.message || data.error || (archived ? '恢复失败' : '下架失败'))
+        setError(data.message || data.error || (archived ? 'Failed to restore Skill.' : 'Failed to archive Skill.'))
         return
       }
-      setMessage(archived ? '已恢复' : '已下架')
+      setMessage(archived ? 'Skill restored.' : 'Skill archived.')
       setConfirmArchiveOpen(false)
       router.refresh()
     } finally {
@@ -347,12 +347,12 @@ export function SkillManagePanel({ skill }: Props) {
   async function publishNewVersion(e: React.FormEvent) {
     e.preventDefault()
     if (!versionFile) {
-      setVersionError('请选择 zip 文件')
+      setVersionError('Choose a zip file.')
       return
     }
     const nextVersion = versionInput.trim()
     if (!nextVersion) {
-      setVersionError('请填写新版本号')
+      setVersionError('Enter a new version.')
       return
     }
 
@@ -372,10 +372,10 @@ export function SkillManagePanel({ skill }: Props) {
         if (data.error === 'version_conflict' && data.details?.suggested_version) {
           setVersionInput(String(data.details.suggested_version))
         }
-        setVersionError(data.message || data.error || '发布新版本失败')
+        setVersionError(data.message || data.error || 'Failed to publish new version.')
         return
       }
-      setVersionMessage(`已发布 v${data.version}`)
+      setVersionMessage(`Published v${data.version}`)
       setVersionFile(null)
       setVersionFormOpen(false)
       setVersionInput(suggestPatchVersion(data.version || nextVersion))
@@ -389,16 +389,16 @@ export function SkillManagePanel({ skill }: Props) {
     <div className="skill-manage-panel">
       <div className="skill-manage-header">
         <div>
-          <h3>管理</h3>
-          <p>先确认当前展示信息，需要修改时再进入编辑。</p>
+          <h3>Manage</h3>
+          <p>Review the current display metadata, then edit only what needs to change.</p>
         </div>
         <div className="skill-manage-header-actions">
           <span className={`skill-status ${skill.status}`}>
-            {skill.status === 'archived' ? '已下架' : '上架中'}
+            {skill.status === 'archived' ? 'Archived' : 'Active'}
           </span>
           {!editing && (
             <button type="button" className="skill-manage-edit" onClick={() => setEditing(true)}>
-              编辑
+              Edit
             </button>
           )}
         </div>
@@ -408,7 +408,7 @@ export function SkillManagePanel({ skill }: Props) {
         <div className="skill-manage-edit-form">
           <div className="skill-manage-locked">
             <div>
-              <span>名称</span>
+              <span>Name</span>
               <strong>{skill.name}</strong>
             </div>
             <div>
@@ -416,12 +416,12 @@ export function SkillManagePanel({ skill }: Props) {
               <strong>{skill.slug}</strong>
             </div>
             <div>
-              <span>版本</span>
+              <span>Version</span>
               <strong>v{skill.version}</strong>
             </div>
           </div>
 
-          <FormField label="卡片标题" help="首页卡片展示给普通用户看的名字；不修改 Skill ID">
+          <FormField label="Card title" help="Human-facing name shown on marketplace cards. Does not change the Skill ID.">
             <input
               className="metadata-input"
               value={displayName}
@@ -431,7 +431,7 @@ export function SkillManagePanel({ skill }: Props) {
             />
           </FormField>
 
-          <FormField label="卡片短描述" help="首页卡片优先展示；留空时使用下方触发描述">
+          <FormField label="Card summary" help="Short card description. Falls back to the trigger description when empty.">
             <textarea
               className="metadata-input metadata-textarea"
               value={displayDescription}
@@ -441,7 +441,7 @@ export function SkillManagePanel({ skill }: Props) {
             />
           </FormField>
 
-          <FormField label="触发描述" help="Agent 判断什么时候使用这个 Skill 的描述" required>
+          <FormField label="Trigger description" help="Used by agents to decide when this Skill should be used." required>
             <textarea
               className="metadata-input metadata-textarea"
               value={description}
@@ -450,18 +450,18 @@ export function SkillManagePanel({ skill }: Props) {
           </FormField>
 
           <div className="skill-manage-meta-grid">
-            <FormField label="分类" required>
+            <FormField label="Category" required>
               <CategorySelect value={category} onChange={setCategory} />
             </FormField>
-            <FormField label="图标" help="可选，只能输入一个 emoji">
+            <FormField label="Icon" help="Optional. Use a single emoji.">
               <EmojiInput value={icon} onChange={setIcon} />
             </FormField>
-            <FormField label="标签" help="最多 5 个，回车 / 空格 / 逗号添加">
+            <FormField label="Tags" help="Up to 5 tags. Press Enter, Space, or comma to add.">
               <TagInput tags={tags} onChange={setTags} />
             </FormField>
           </div>
 
-          <FormField label="使用示例" help="可选。真实使用场景，让人一眼看懂能干什么">
+          <FormField label="Usage example" help="Optional. A realistic scenario that makes the Skill easy to understand.">
             <ExampleTextarea value={example} onChange={setExample} />
           </FormField>
 
@@ -481,44 +481,44 @@ export function SkillManagePanel({ skill }: Props) {
               }}
               disabled={pending}
             >
-              取消
+              Cancel
             </button>
             <button type="button" onClick={save} disabled={pending || !isDirty || !!iconError}>
-              {pending ? '保存中...' : '保存'}
+              {pending ? 'Saving...' : 'Save'}
             </button>
           </div>
         </div>
       ) : (
         <div className="skill-manage-summary">
           <div className="skill-manage-summary-row">
-            <span>卡片标题</span>
+            <span>Card title</span>
             <strong>{skillDisplayName(skill)}</strong>
           </div>
           <div className="skill-manage-summary-row wide">
-            <span>卡片短描述</span>
+            <span>Card summary</span>
             <p>{skillDisplayDescription(skill)}</p>
           </div>
           <div className="skill-manage-summary-row wide">
-            <span>触发描述</span>
+            <span>Trigger description</span>
             <p>{skill.description}</p>
           </div>
           <div className="skill-manage-summary-row">
-            <span>分类</span>
+            <span>Category</span>
             <strong>{categoryLabel(skill.category)}</strong>
           </div>
           <div className="skill-manage-summary-row">
-            <span>图标</span>
-            <strong>{initialIcon || '未设置'}</strong>
+            <span>Icon</span>
+            <strong>{initialIcon || 'Not set'}</strong>
           </div>
           <div className="skill-manage-summary-row wide">
-            <span>标签</span>
+            <span>Tags</span>
             <div className="skill-manage-tag-list">
-              {skill.tags.length > 0 ? skill.tags.map((tag) => <em key={tag}>#{tag}</em>) : '未设置'}
+              {skill.tags.length > 0 ? skill.tags.map((tag) => <em key={tag}>#{tag}</em>) : 'Not set'}
             </div>
           </div>
           <div className="skill-manage-summary-row wide">
-            <span>使用示例</span>
-            <p>{skill.example || '未设置'}</p>
+            <span>Usage example</span>
+            <p>{skill.example || 'Not set'}</p>
           </div>
         </div>
       )}
@@ -526,8 +526,8 @@ export function SkillManagePanel({ skill }: Props) {
       <div className="skill-manage-access">
         <div className="skill-manage-section-heading">
           <div>
-            <h4>权限</h4>
-            <p>控制谁能看到这个 Skill，以及谁能下载和安装。</p>
+            <h4>Access</h4>
+            <p>Control who can see this Skill and who can download or install it.</p>
           </div>
           {!accessEditing && (
             <button
@@ -539,21 +539,21 @@ export function SkillManagePanel({ skill }: Props) {
                 setAccessError(null)
               }}
             >
-              编辑权限
+              Edit access
             </button>
           )}
         </div>
 
         {accessEditing ? (
           <div className="skill-access-form">
-            <FormField label="安装权限">
+            <FormField label="Install access">
               <AccessOptionGroup
                 value={accessInstall}
                 options={INSTALL_ACCESS_OPTIONS}
                 onChange={setAccessInstall}
               />
             </FormField>
-            <FormField label="可见性">
+            <FormField label="Visibility">
               <AccessOptionGroup
                 value={accessVisibility}
                 options={VISIBILITY_OPTIONS}
@@ -561,7 +561,7 @@ export function SkillManagePanel({ skill }: Props) {
               />
             </FormField>
             {grantsMatter && (
-              <FormField label="指定人员" help="输入 handle 后按回车 / 空格 / 逗号添加">
+              <FormField label="Selected users" help="Enter a handle, then press Enter, Space, or comma.">
                 <div className="skill-access-grant-panel">
                   <AccessGrantEditor
                     handles={grantDraftHandles}
@@ -579,7 +579,7 @@ export function SkillManagePanel({ skill }: Props) {
                         setGrantDraftHandles([...grantDraftHandles, handle])
                       }
                     }}
-                    placeholder="输入 handle 或搜索人员，例如 demo"
+                    placeholder="Enter a handle or search users, e.g. demo"
                   />
                 </div>
               </FormField>
@@ -599,27 +599,27 @@ export function SkillManagePanel({ skill }: Props) {
                 }}
                 disabled={accessPending}
               >
-                取消
+                Cancel
               </button>
               <button type="button" onClick={saveAccess} disabled={accessPending || !accessDirty}>
-                {accessPending ? '保存中...' : '保存权限'}
+                {accessPending ? 'Saving...' : 'Save access'}
               </button>
             </div>
           </div>
         ) : (
           <div className="skill-access-summary">
             <div>
-              <span>安装权限</span>
+              <span>Install access</span>
               <strong>{installAccessLabel(accessInstall)}</strong>
             </div>
             <div>
-              <span>可见性</span>
+              <span>Visibility</span>
               <strong>{visibilityLabel(accessVisibility)}</strong>
             </div>
             {grantsMatter && (
               <div className="wide">
-                <span>指定人员</span>
-                {!accessLoaded ? <p>读取中...</p> : <AccessGrantList handles={grantHandles} />}
+                <span>Selected users</span>
+                {!accessLoaded ? <p>Loading...</p> : <AccessGrantList handles={grantHandles} />}
               </div>
             )}
             {(accessMessage || accessError) && (
@@ -633,11 +633,11 @@ export function SkillManagePanel({ skill }: Props) {
 
       <div className="skill-manage-lifecycle">
         <div>
-          <h4>版本与上下架</h4>
+          <h4>Versions and archive state</h4>
           <p>
             {skill.status === 'archived'
-              ? '发布新版本会更新默认安装版本；恢复后会重新进入列表和搜索。'
-              : '发布新版本会更新默认安装版本；下架后列表和搜索默认不展示。'}
+              ? 'Publishing a new version updates the default install version. Restoring returns it to listings and search.'
+              : 'Publishing a new version updates the default install version. Archiving hides it from listings and search.'}
           </p>
         </div>
         <div className="skill-manage-lifecycle-actions">
@@ -651,7 +651,7 @@ export function SkillManagePanel({ skill }: Props) {
             }}
             disabled={pending || versionPending || versionFormOpen}
           >
-            发布新版本
+            Publish new version
           </button>
           <button
             type="button"
@@ -662,7 +662,7 @@ export function SkillManagePanel({ skill }: Props) {
             }}
             disabled={pending || versionPending}
           >
-            {skill.status === 'archived' ? '恢复上架' : '下架'}
+            {skill.status === 'archived' ? 'Restore' : 'Archive'}
           </button>
         </div>
 
@@ -674,7 +674,7 @@ export function SkillManagePanel({ skill }: Props) {
 
         {versionFormOpen && (
           <form className="skill-version-publish-form" onSubmit={publishNewVersion}>
-            <FormField label="新版本包" help="上传同名 Skill 的 zip 包；name 必须保持不变" required>
+            <FormField label="New version package" help="Upload a zip package for the same Skill. The name must stay the same." required>
               <SkillPackagePicker
                 value={versionFile}
                 onChange={setVersionFile}
@@ -682,7 +682,7 @@ export function SkillManagePanel({ skill }: Props) {
                 disabled={versionPending}
               />
             </FormField>
-            <FormField label="新版本号" required>
+            <FormField label="New version" required>
               <input
                 className="metadata-input"
                 value={versionInput}
@@ -707,10 +707,10 @@ export function SkillManagePanel({ skill }: Props) {
                 }}
                 disabled={versionPending}
               >
-                取消
+                Cancel
               </button>
               <button type="submit" disabled={versionPending || !versionFile || !versionInput.trim()}>
-                {versionPending ? '发布中...' : '确认发布'}
+                {versionPending ? 'Publishing...' : 'Publish version'}
               </button>
             </div>
           </form>
@@ -720,14 +720,14 @@ export function SkillManagePanel({ skill }: Props) {
       {confirmArchiveOpen && (
         <div className="install-modal-backdrop" onClick={() => setConfirmArchiveOpen(false)}>
           <div className="install-modal skill-confirm-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="skill-confirm-icon">下架</div>
-            <h3>确认下架这个 Skill？</h3>
+            <div className="skill-confirm-icon">Archive</div>
+            <h3>Archive this Skill?</h3>
             <p>
-              下架后首页和搜索默认不展示，安装和下载会被拒绝；你仍然可以从已下架入口回到详情页恢复。
+              Archived Skills are hidden from the home page and search by default. Install and download requests are rejected, but you can restore the Skill later.
             </p>
             <div className="skill-confirm-actions">
               <button type="button" className="secondary" onClick={() => setConfirmArchiveOpen(false)}>
-                取消
+                Cancel
               </button>
               <button
                 type="button"
@@ -735,7 +735,7 @@ export function SkillManagePanel({ skill }: Props) {
                 onClick={() => void archiveOrRestore()}
                 disabled={pending}
               >
-                {pending ? '下架中...' : '确认下架'}
+                {pending ? 'Archiving...' : 'Archive Skill'}
               </button>
             </div>
           </div>

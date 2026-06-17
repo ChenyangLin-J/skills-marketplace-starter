@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
   const result = await sendAlert({
     type: 'dev_test',
     title: '[Skills Marketplace] Dev test alert',
-    message: '这是一条来自 Dev Tools 的测试告警。',
+    message: 'This is a test alert from Dev Tools.',
     details: {
       source: 'DevTools',
       route: '/api/dev/alerts/test',

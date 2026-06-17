@@ -7,7 +7,7 @@ export const runtime = 'nodejs'
 export async function GET(req: NextRequest) {
   const user = getCliUserFromRequest(req)
   if (!user) {
-    return apiError(401, 'unauthorized', 'CLI 未登录，请先运行 agent-skills login')
+    return apiError(401, 'unauthorized', 'CLI is not logged in. Run agent-skills login first.')
   }
   return NextResponse.json({ user })
 }

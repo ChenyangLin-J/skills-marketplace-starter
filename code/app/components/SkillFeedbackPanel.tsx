@@ -34,7 +34,7 @@ export function SkillFeedbackPanel({
         const data = await res.json()
         if (cancelled) return
         if (!res.ok) {
-          setFeedbackError(data.message || data.error || '读取反馈失败')
+          setFeedbackError(data.message || data.error || 'Failed to load feedback.')
           return
         }
         setFeedbackItems(data.items || [])
@@ -53,7 +53,7 @@ export function SkillFeedbackPanel({
   async function submit(e: React.FormEvent) {
     e.preventDefault()
     if (!isLoggedIn) {
-      setError('请先登录后再提交反馈')
+      setError('Sign in before submitting feedback.')
       return
     }
     setPending(true)
@@ -73,10 +73,10 @@ export function SkillFeedbackPanel({
       })
       const data = await res.json()
       if (!res.ok) {
-        setError(data.message || data.error || '提交失败')
+        setError(data.message || data.error || 'Failed to submit feedback.')
         return
       }
-      setResult(`已提交反馈 #${data.id}`)
+      setResult(`Feedback submitted #${data.id}`)
       if (canManage) {
         setFeedbackItems((items) => [data as SkillFeedback, ...items])
       }
@@ -91,8 +91,8 @@ export function SkillFeedbackPanel({
     <form className="skill-feedback-panel" onSubmit={submit}>
       <div className="skill-feedback-header">
         <div>
-          <h3>反馈</h3>
-          <p>问题、建议、提问、使用卡住的地方或真实使用情况都可以写。</p>
+          <h3>Feedback</h3>
+          <p>Report issues, suggestions, questions, blocked usage, or real usage notes.</p>
         </div>
         {!isLoggedIn && (
           <a href={`/api/auth/dev-login?next=${encodeURIComponent(`/skills/${slug}`)}`}>
@@ -103,21 +103,21 @@ export function SkillFeedbackPanel({
 
       <div className="skill-feedback-body">
         <label className="skill-feedback-field">
-          <span>反馈内容</span>
+          <span>Feedback</span>
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="直接写给作者：哪里不好用、希望怎么改、或者你实际怎么用了这个 Skill。"
+            placeholder="Write to the creator: what failed, what should improve, or how you actually used this Skill."
             required
           />
         </label>
 
         <label className="skill-feedback-field optional">
-          <span>补充上下文（可选）</span>
+          <span>Additional context (optional)</span>
           <textarea
             value={context}
             onChange={(e) => setContext(e.target.value)}
-            placeholder="粘贴错误日志、调用片段或你愿意提供的上下文。"
+            placeholder="Paste an error log, command snippet, or any context you are comfortable sharing."
           />
         </label>
       </div>
@@ -130,7 +130,7 @@ export function SkillFeedbackPanel({
 
       <div className="skill-feedback-actions">
         <button type="submit" disabled={pending || !isLoggedIn}>
-          {pending ? '提交中...' : '提交反馈'}
+          {pending ? 'Submitting...' : 'Submit feedback'}
         </button>
       </div>
 
@@ -138,17 +138,17 @@ export function SkillFeedbackPanel({
         <div className="skill-feedback-owner">
           <div className="skill-feedback-owner-header">
             <div>
-              <h4>收到的反馈</h4>
-              <p>Web 和 CLI 提交的反馈都会显示在这里。</p>
+              <h4>Received feedback</h4>
+              <p>Feedback submitted from Web and CLI appears here.</p>
             </div>
-            <span>{feedbackItems.length} 条</span>
+            <span>{feedbackItems.length} items</span>
           </div>
           {feedbackLoading ? (
-            <div className="skill-feedback-empty">正在读取反馈...</div>
+            <div className="skill-feedback-empty">Loading feedback...</div>
           ) : feedbackError ? (
             <div className="skill-feedback-error inline">{feedbackError}</div>
           ) : feedbackItems.length === 0 ? (
-            <div className="skill-feedback-empty">还没有收到反馈。</div>
+            <div className="skill-feedback-empty">No feedback yet.</div>
           ) : (
             <div className="skill-feedback-list">
               {feedbackItems.map((item) => (
@@ -172,7 +172,7 @@ export function SkillFeedbackPanel({
 }
 
 function formatFeedbackTime(seconds: number): string {
-  return new Date(seconds * 1000).toLocaleString('zh-CN', {
+  return new Date(seconds * 1000).toLocaleString('en-US', {
     month: '2-digit',
     day: '2-digit',
     hour: '2-digit',

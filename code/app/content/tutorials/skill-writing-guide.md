@@ -6,8 +6,6 @@ difficulty: beginner
 duration: 10 min
 category: Creating Skills
 order: 6
-screenshot: /tutorials/screenshots/local-skill-folder.png
-videoPlaceholder: Skill writing comparison recording placeholder.
 ---
 
 ## Description Is Discovery
@@ -59,7 +57,7 @@ Prepare a small trigger eval:
 
 | Type | Prompt |
 | --- | --- |
-| Should trigger | `我要写一份项目报告` |
+| Should trigger | `I need to write a project report` |
 | Should trigger | `Summarize this research into a memo` |
 | Should not trigger | `Fix this Python function` |
 

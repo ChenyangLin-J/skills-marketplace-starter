@@ -7,7 +7,7 @@ function escapeRegExp(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
-/** 把 text 按 q（不分大小写）切成 [前, 命中, 后, 命中, 后...] 渲染,命中处用 <mark> */
+/** Split text by q case-insensitively and render matches with <mark>. */
 export function Highlight({ text, q }: { text: string; q: string }) {
   if (!q || !text) return <>{text}</>
   const re = new RegExp(escapeRegExp(q), 'gi')
@@ -30,11 +30,11 @@ export function Highlight({ text, q }: { text: string; q: string }) {
 }
 
 /**
- * 描述命中片段:
- * - 没命中 → 返回原文
- * - 第一处命中在前 CTX_BEFORE 字符内 → 原文
- * - 否则 → '…' + 命中前 CTX_BEFORE 字符 + 命中 + 后 CTX_AFTER 字符 + '…'
- *   (CSS 仍 line-clamp 2 行兜底)
+ * Description match snippet:
+ * - No match: return the original text.
+ * - First match within CTX_BEFORE chars: return the original text.
+ * - Otherwise: return ellipsis + context before + match + context after + ellipsis.
+ *   CSS still line-clamps to two lines as a fallback.
  */
 export function descriptionContext(text: string, q: string): string {
   if (!q || !text) return text

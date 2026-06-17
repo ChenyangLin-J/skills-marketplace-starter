@@ -4,8 +4,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { attachIds, parseHeadings } from '@/lib/toc'
 
 /**
- * 固定在视口右侧的 sticky TOC,不占 layout 空间。
- * 视口宽度小于 viewportMin (默认 1300) 时整体隐藏。
+ * Sticky TOC fixed on the right side without taking layout space.
+ * Hidden when viewport width is below viewportMin.
  */
 export function TocFixed({
   markdown,
@@ -46,8 +46,8 @@ export function TocFixed({
   if (!wide) return null
 
   return (
-    <nav className="toc-fixed" aria-label="目录">
-      <div className="toc-title">📑 目录</div>
+    <nav className="toc-fixed" aria-label="Table of contents">
+      <div className="toc-title">📑 Contents</div>
       <ul className="toc-list">
         {headings.map((h) => (
           <li

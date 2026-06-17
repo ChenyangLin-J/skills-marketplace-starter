@@ -25,7 +25,7 @@ function fastScrollTo(targetY: number) {
 }
 
 /**
- * 搜索时把指定锚点滚到视口顶部。用 250ms ease-out 快速但不突兀。
+ * Scroll the target anchor to the viewport top on search. 250ms ease-out feels quick but calm.
  */
 export function ScrollOnSearch({ targetId }: { targetId: string }) {
   const sp = useSearchParams()

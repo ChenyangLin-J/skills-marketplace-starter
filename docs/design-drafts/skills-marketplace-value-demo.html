@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -73,39 +73,39 @@
   <body>
     <div class="titlebar">
       <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
-      <div class="title">用户一句话，Agent 自动找 Skill、安装、使用和反馈</div>
+      <div class="title">One user sentence, then the agent finds, installs, uses, and reports feedback on Skills</div>
     </div>
 
-    <pre><span class="muted">场景 1 / 用户想知道市场里有什么</span>
+    <pre><span class="muted">Scenario 1 / The user wants to know what is in the marketplace</span>
 <span class="user">User</span>
-Skills 市场有什么？
+What skills are available in the marketplace?
 
 <span class="agent">Agent</span>
-我来查一下当前 Marketplace。
+I will check the current Marketplace.
 
 <span class="tool">Bash(agent-skills list)</span>
-<span class="out">共 4 个 Skill
+<span class="out">4 Skills found
 
-@community/marketplace-guide   Marketplace 使用指南
-@community/skill-creator       帮你把经验整理成可发布 Skill
-@demo/hello-world              最小安装和更新样例
-@demo/report-writer            把笔记、分析或研究整理成报告</span>
+@community/marketplace-guide   Marketplace guide
+@community/skill-creator       Helps turn team know-how into a publishable Skill
+@demo/hello-world              Minimal install and update example
+@demo/report-writer            Turns notes, analysis, or research into a report</span>
 
 <span class="agent">Agent</span>
-现在这个 starter 里有 4 个演示 Skill。你可以先装 guide 了解市场，也可以装 report-writer 体验“用户说目标，Agent 找能力”的流程。
+This starter currently has 4 demo Skills. You can install the guide first, or install report-writer to try the flow where the user states a goal and the agent finds the right capability.
 
 
-<span class="muted">场景 2 / 用户只说目标，Agent 搜索并询问是否安装</span>
+<span class="muted">Scenario 2 / The user states a goal, then the agent searches and asks before installing</span>
 <span class="user">User</span>
-我要写一份项目报告。
+I need to write a project report.
 
 <span class="agent">Agent</span>
-我先看 Marketplace 里有没有适合写报告的 Skill。
+I will check whether the Marketplace has a suitable report-writing Skill.
 
 <span class="tool">Bash(agent-skills search report)</span>
-<span class="out">共 1 条结果
+<span class="out">1 result found
 ┏━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━┓
-┃ Skill                ┃ 作者   ┃ 描述                               ┃ 装机 ┃
+┃ Skill                ┃ Author   ┃ Description                               ┃ Installs ┃
 ┡━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━┩
 │ @demo/report-writer  │ demo   │ Turn notes or findings into report │ 0    │
 └──────────────────────┴────────┴────────────────────────────────────┴──────┘</span>
@@ -121,12 +121,12 @@ Workflow:
 4. Name missing sources instead of inventing them.</span>
 
 <span class="agent">Agent</span>
-我找到了 <span class="ok">@demo/report-writer</span>。它适合把零散笔记或分析结论整理成项目报告。
+I found <span class="ok">@demo/report-writer</span>. It helps turn rough notes or analysis findings into a project report.
 
-要安装到你当前使用的 Agent 吗？
+Install it into your current agent?
 
 <span class="user">User</span>
-安装吧。
+Yes, install it.
 
 <span class="tool">Bash(agent-skills install @demo/report-writer --target codex)</span>
 <span class="out">Downloading @demo/report-writer v0.1.0 ...
@@ -137,15 +137,15 @@ Workflow:
 ╰────────────────────────────────────────────╯</span>
 
 <span class="agent">Agent</span>
-装好了。现在把你的报告材料发给我，我会按 report-writer 的结构整理：结论、证据、风险和下一步。
+Installed. Send me the source material and I will structure it with report-writer: conclusion, evidence, risks, and next steps.
 
 
-<span class="muted">场景 3 / 使用失败后把反馈带回 creator</span>
+<span class="muted">Scenario 3 / After a failure, feedback goes back to the creator</span>
 <span class="user">User</span>
-这个报告 Skill 没有问受众，直接开始写了。
+This report Skill started writing without asking about the audience.
 
 <span class="agent">Agent</span>
-这是一个可改进的 Skill 行为。我会把复现信息反馈给作者，方便下一版补充“先确认受众”的规则。
+That is useful Skill feedback. I will send the reproduction context to the author so the next version can add a rule to confirm the audience first.
 
 <span class="tool">Bash(agent-skills feedback @demo/report-writer \
   --type issue \
@@ -158,6 +158,6 @@ Workflow:
 ╰────────────────────────────────────────╯</span>
 
 <span class="agent">Agent</span>
-反馈已提交。creator 可以在 Web 详情页或「My Skills」里看到这条真实失败样例，并据此更新 Skill。</pre>
+Feedback submitted. The creator can see this real failure example in the Web detail page or My Skills, then update the Skill.</pre>
   </body>
 </html>

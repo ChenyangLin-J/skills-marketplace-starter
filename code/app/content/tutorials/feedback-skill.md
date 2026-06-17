@@ -6,8 +6,6 @@ difficulty: beginner
 duration: 4 min
 category: Using Skills
 order: 9
-screenshot: /tutorials/screenshots/skill-detail.png
-videoPlaceholder: Feedback flow recording placeholder.
 ---
 
 ## When To Send Feedback

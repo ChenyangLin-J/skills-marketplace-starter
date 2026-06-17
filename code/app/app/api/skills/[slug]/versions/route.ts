@@ -38,7 +38,7 @@ export async function GET(
   const slug = decodeSlug(raw)
   const currentUser = getAuthenticatedUserFromRequest(req)
   const skill = getSkillBySlug(slug, userIdOrAnonymous(currentUser))
-  if (!skill) return apiError(404, 'not_found', `skill ${slug} 不存在`)
+  if (!skill) return apiError(404, 'not_found', `skill ${slug} does not exist`)
   const decision = checkSkillVisibility(skill, currentUser)
   if (!decision.allowed) return apiError(decision.status, decision.code, decision.message)
 
@@ -51,26 +51,26 @@ export async function POST(
   ctx: { params: Promise<{ slug: string }> },
 ) {
   const currentUser = getAuthenticatedUserFromRequest(req)
-  if (!currentUser) return apiError(401, 'unauthorized', '请先登录后再发布新版本')
+  if (!currentUser) return apiError(401, 'unauthorized', 'Log in before publishing a new version.')
 
   const { slug: raw } = await ctx.params
   const slug = decodeSlug(raw)
   const skill = getSkillBySlug(slug, currentUser.open_id)
-  if (!skill) return apiError(404, 'not_found', `skill ${slug} 不存在`)
+  if (!skill) return apiError(404, 'not_found', `skill ${slug} does not exist`)
   if (!canManageSkill(skill, currentUser)) {
-    return apiError(403, 'forbidden', '只能管理自己发布或归属给自己的 Skill')
+    return apiError(403, 'forbidden', 'You can only manage Skills you published or own.')
   }
 
   const ct = req.headers.get('content-type') || ''
   if (!ct.includes('multipart/form-data')) {
-    return apiError(400, 'validation_failed', '需要 multipart/form-data')
+    return apiError(400, 'validation_failed', 'multipart/form-data is required')
   }
 
   const form = await req.formData()
   const file = form.get('file')
   const versionOverride = String(form.get('version') || '').trim()
   if (!file || !(file instanceof File)) {
-    return apiError(400, 'validation_failed', '字段校验失败', { file: '缺少 file' })
+    return apiError(400, 'validation_failed', 'Field validation failed', { file: 'Missing file' })
   }
 
   let buf: Buffer<ArrayBufferLike> = Buffer.from(await file.arrayBuffer())
@@ -90,8 +90,8 @@ export async function POST(
   }
 
   if (parsed.name !== skill.name) {
-    return apiError(400, 'validation_failed', '上传包和当前 Skill 不匹配', {
-      name: `当前 Skill 是 ${skill.name}，上传包是 ${parsed.name}`,
+    return apiError(400, 'validation_failed', 'The uploaded package does not match the current Skill', {
+      name: `Current Skill is ${skill.name}; uploaded package is ${parsed.name}`,
     })
   }
 
@@ -103,7 +103,7 @@ export async function POST(
     return apiError(
       409,
       'version_conflict',
-      `版本 ${parsed.version} 已存在，请填写新的版本号后再发布`,
+      `Version ${parsed.version} already exists. Enter a new version before publishing.`,
       {
         slug,
         current_version: skill.version,
@@ -116,7 +116,7 @@ export async function POST(
   try {
     zipPath = saveSkillZip(skill.author, skill.name, parsed.version, buf)
   } catch (e) {
-    return apiError(500, 'server_error', `存储失败: ${String(e)}`)
+    return apiError(500, 'server_error', `Storage failed: ${String(e)}`)
   }
 
   const result = upsertSkill({

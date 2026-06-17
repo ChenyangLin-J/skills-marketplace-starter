@@ -11,18 +11,18 @@ type CurrentUser = {
 }
 
 /**
- * 右下角悬浮 Dev Tools 入口。
- * 用于切换开发态占位和本地网页登录态。
+ * Floating Dev Tools entry in the lower-right corner.
+ * Used to toggle placeholders and the local web login state.
  */
 export function DevTools() {
   const { showPlaceholders, setShowPlaceholders, hydrated } = useDevMode()
   const router = useRouter()
   const [open, setOpen] = useState(false)
   const [authEnabled, setAuthEnabled] = useState(false)
-  const [authLabel, setAuthLabel] = useState('未登录')
+  const [authLabel, setAuthLabel] = useState('Not signed in')
   const [authPending, setAuthPending] = useState(false)
   const [authError, setAuthError] = useState('')
-  const [heroResetLabel, setHeroResetLabel] = useState('清除完成状态并刷新首页')
+  const [heroResetLabel, setHeroResetLabel] = useState('Clear completion state and refresh the homepage')
   const [alertTestLabel, setAlertTestLabel] = useState('Send test alert')
   const [alertTestPending, setAlertTestPending] = useState(false)
 
@@ -34,12 +34,12 @@ export function DevTools() {
       setAuthEnabled(!!user)
       setAuthLabel(
         user
-          ? `${user.name || user.handle || '已登录'}${user.handle ? ` · @${user.handle}` : ''}`
-          : '未登录',
+          ? `${user.name || user.handle || 'Signed in'}${user.handle ? ` · @${user.handle}` : ''}`
+          : 'Not signed in',
       )
       setAuthError('')
     } catch {
-      setAuthError('无法读取登录态')
+      setAuthError('Could not read login state')
     }
   }, [])
 
@@ -62,7 +62,7 @@ export function DevTools() {
       await refreshAuthState()
       router.refresh()
     } catch {
-      setAuthError(enabled ? '开发登录失败' : '退出登录失败')
+      setAuthError(enabled ? 'Dev login failed' : 'Logout failed')
     } finally {
       setAuthPending(false)
     }
@@ -83,14 +83,14 @@ export function DevTools() {
         body: JSON.stringify({ completed: false }),
       })
       if (res.ok) {
-        setHeroResetLabel('已清除账号状态，正在刷新...')
+        setHeroResetLabel('Account state cleared. Refreshing...')
       } else if (res.status === 401) {
-        setHeroResetLabel('已清除本机状态，正在刷新...')
+        setHeroResetLabel('Local state cleared. Refreshing...')
       } else {
-        setHeroResetLabel('账号状态清除失败，正在刷新...')
+        setHeroResetLabel('Could not clear account state. Refreshing...')
       }
     } catch {
-      setHeroResetLabel('清除失败，仍会刷新')
+      setHeroResetLabel('Clear failed, but the page will still refresh')
     }
     window.setTimeout(() => {
       window.location.href = '/'
@@ -99,32 +99,32 @@ export function DevTools() {
 
   async function sendTestAlert() {
     setAlertTestPending(true)
-    setAlertTestLabel('发送中...')
+    setAlertTestLabel('Sending...')
     try {
       const res = await fetch('/api/dev/alerts/test', { method: 'POST' })
       const data = (await res.json()) as { sent?: boolean; configured?: boolean; reason?: string }
       if (!res.ok) {
-        setAlertTestLabel(`发送失败：${data.reason || `HTTP ${res.status}`}`)
+        setAlertTestLabel(`Send failed: ${data.reason || `HTTP ${res.status}`}`)
       } else if (!data.configured) {
         setAlertTestLabel('ALERT_WEBHOOK_URL is not configured')
       } else if (data.sent) {
         setAlertTestLabel('Test alert sent')
       } else {
-        setAlertTestLabel(data.reason || '未发送')
+        setAlertTestLabel(data.reason || 'Not sent')
       }
     } catch {
-      setAlertTestLabel('发送失败')
+      setAlertTestLabel('Send failed')
     } finally {
       setAlertTestPending(false)
     }
   }
 
-  // 避免水合不一致：未水合前别渲染（按钮 / 状态都依赖 localStorage）
+  // Avoid hydration drift: buttons and state depend on localStorage.
   if (!hydrated) return null
 
   return (
     <>
-      {/* 齿轮按钮 */}
+      {/* Gear button */}
       <button
         type="button"
         aria-label="Dev tools"
@@ -153,7 +153,7 @@ export function DevTools() {
         ⚙
       </button>
 
-      {/* 抽屉：从右下角弹出 */}
+      {/* Drawer from the lower-right corner */}
       {open && (
         <div
           role="dialog"
@@ -186,7 +186,7 @@ export function DevTools() {
             <span>🛠️ Dev Tools</span>
             <button
               type="button"
-              aria-label="关闭"
+              aria-label="Close"
               onClick={() => setOpen(false)}
               style={{
                 border: 'none',
@@ -201,7 +201,7 @@ export function DevTools() {
             </button>
           </div>
 
-          {/* Toggle 行 */}
+          {/* Toggle row */}
           <label
             style={{
               display: 'flex',
@@ -212,7 +212,7 @@ export function DevTools() {
               cursor: 'pointer',
             }}
           >
-            <span>显示 v1.5 占位</span>
+            <span>Show planned placeholders</span>
             <DevToggle
               checked={showPlaceholders}
               onChange={(v) => setShowPlaceholders(v)}
@@ -231,7 +231,7 @@ export function DevTools() {
               marginTop: 8,
             }}
           >
-            <span>网页登录</span>
+            <span>Web login</span>
             <DevToggle
               checked={authEnabled}
               disabled={authPending}
@@ -271,7 +271,7 @@ export function DevTools() {
                 cursor: 'pointer',
               }}
             >
-              恢复首页 Hero
+              Restore homepage hero
             </button>
             <div
               style={{
@@ -331,7 +331,7 @@ export function DevTools() {
               lineHeight: 1.5,
             }}
           >
-            占位开关保存在 localStorage；网页登录会直接切换当前浏览器 cookie。
+            Placeholder settings are stored in localStorage. Web login switches the current browser cookie.
           </div>
         </div>
       )}

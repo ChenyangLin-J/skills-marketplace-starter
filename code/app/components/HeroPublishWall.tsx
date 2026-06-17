@@ -19,8 +19,8 @@ export function HeroPublishWall({ skills }: HeroPublishWallProps) {
       <div className="hero-publish-wall empty">
         <div className="hero-wall-card tall">
           <div className="hero-card-kicker">Featured Skill</div>
-          <h2>等待第一个 Skill</h2>
-          <p>发布后会自动出现在这里。</p>
+          <h2>Waiting for the first Skill</h2>
+          <p>Published Skills will appear here automatically.</p>
         </div>
       </div>
     )
@@ -53,7 +53,7 @@ function HeroWallCard({
   if (featured) {
     return (
       <article className="hero-wall-card tall">
-        <Link href={href} className="hero-card-overlay-link" aria-label={`查看 ${displayName}`} />
+        <Link href={href} className="hero-card-overlay-link" aria-label={`View ${displayName}`} />
         <div className="hero-card-content">
           <div className="hero-feature-top">
             <span className="hero-feature-label">Featured Skill</span>

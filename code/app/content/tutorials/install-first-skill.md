@@ -6,8 +6,6 @@ difficulty: beginner
 duration: 3 min
 category: Getting Started
 order: 2
-screenshot: /tutorials/screenshots/skill-detail.png
-videoPlaceholder: Short install recording placeholder.
 ---
 
 ## Install The CLI

@@ -14,8 +14,8 @@ export function SearchForm({ initialQuery, category }: Props) {
   const [q, setQ] = useState(initialQuery)
   const [, startTransition] = useTransition()
 
-  // 是否处于"已搜索"状态:由 URL 决定,而非 input 当前值。
-  // 这样按钮只在提交搜索后出现,实时打字不闪。
+  // Search state comes from the URL, not the current input value.
+  // This keeps the clear button stable while the user is typing.
   const hasActiveSearch = !!initialQuery
 
   function onSubmit(e: React.FormEvent) {
@@ -24,10 +24,9 @@ export function SearchForm({ initialQuery, category }: Props) {
     if (q.trim()) usp.set('q', q.trim())
     else usp.delete('q')
     if (category) usp.set('category', category)
-    usp.delete('page') // 任何搜索/清除都重置回第 1 页
+    usp.delete('page')
     const qs = usp.toString()
     startTransition(() => {
-      // scroll: false 阻止 Next 默认的滚动重置;ScrollOnSearch 监听 q 变化后会丝滑滚到 #explore
       router.push(qs ? `/?${qs}` : '/', { scroll: false })
     })
   }
@@ -53,7 +52,7 @@ export function SearchForm({ initialQuery, category }: Props) {
         name="q"
         value={q}
         onChange={(e) => setQ(e.target.value)}
-        placeholder="搜索 skill（名字 / 描述 / 标签）"
+        placeholder="Search skills by name, description, or tags"
         style={{
           flex: 1,
           padding: '8px 14px',
@@ -66,11 +65,11 @@ export function SearchForm({ initialQuery, category }: Props) {
       <button
         type="button"
         onClick={onClear}
-        aria-label="清除搜索"
+        aria-label="Clear search"
         className={`clear-btn${hasActiveSearch ? ' visible' : ''}`}
         tabIndex={hasActiveSearch ? 0 : -1}
       >
-        <span className="clear-btn-inner">✕ 清除</span>
+        <span className="clear-btn-inner">Clear</span>
       </button>
       <button
         type="submit"
@@ -83,7 +82,7 @@ export function SearchForm({ initialQuery, category }: Props) {
           cursor: 'pointer',
         }}
       >
-        搜索
+        Search
       </button>
     </form>
   )

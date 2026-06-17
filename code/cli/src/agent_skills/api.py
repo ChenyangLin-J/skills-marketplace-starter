@@ -50,11 +50,11 @@ def _handle_error(resp: httpx.Response) -> None:
         body = {}
     err = body.get("error") or "http_error"
     msg = body.get("message") or resp.text or f"HTTP {resp.status_code}"
-    rprint(f"[red]✗ API 错误[/red] \\[{err}] {msg}")
+    rprint(f"[red]✗ API error[/red] \\[{err}] {msg}")
     if resp.status_code == 401:
-        rprint("  [dim]需要登录时请运行 [cyan]agent-skills login[/cyan] 后重试。[/dim]")
+        rprint("  [dim]Run [cyan]agent-skills login[/cyan] and try again when login is required.[/dim]")
     elif resp.status_code == 403:
-        rprint("  [dim]你当前账号没有权限；如果你认为应该有权限，请联系 Skill 管理者。[/dim]")
+        rprint("  [dim]Your account does not have permission. Contact the Skill manager if this seems wrong.[/dim]")
     details = body.get("details")
     if details:
         for k, v in details.items():
@@ -68,13 +68,13 @@ def _request(method: str, path: str, **kwargs: Any) -> httpx.Response:
             resp = c.request(method, path, **kwargs)
     except httpx.ConnectError as e:
         rprint(
-            f"[red]✗ 连不上 marketplace[/red]: {_base_url()}\n"
+            f"[red]✗ Could not connect to marketplace[/red]: {_base_url()}\n"
             f"  [dim]{e}[/dim]\n"
-            f"  请确认 Web 已启动，或用 [cyan]agent-skills config set api_base_url <url>[/cyan] 改地址"
+            f"  Make sure the Web app is running, or change the URL with [cyan]agent-skills config set api_base_url <url>[/cyan]"
         )
         raise typer.Exit(code=1) from None
     except httpx.HTTPError as e:
-        rprint(f"[red]✗ 网络错误[/red]: {e}")
+        rprint(f"[red]✗ Network error[/red]: {e}")
         raise typer.Exit(code=1) from None
     _handle_error(resp)
     return resp
@@ -110,19 +110,19 @@ def get_skill_versions(slug: str) -> dict[str, Any]:
 
 
 def try_get_skill(slug: str) -> dict[str, Any] | None:
-    """像 get_skill 但 skill 不存在时返回 None 而不是退出。"""
+    """Like get_skill, but returns None instead of exiting when the Skill does not exist."""
     try:
         with _client() as c:
             resp = c.request("GET", f"/api/skills/{_slug_path(slug)}")
     except httpx.ConnectError as e:
         rprint(
-            f"[red]✗ 连不上 marketplace[/red]: {_base_url()}\n"
+            f"[red]✗ Could not connect to marketplace[/red]: {_base_url()}\n"
             f"  [dim]{e}[/dim]\n"
-            f"  请确认 Web 已启动，或用 [cyan]agent-skills config set api_base_url <url>[/cyan] 改地址"
+            f"  Make sure the Web app is running, or change the URL with [cyan]agent-skills config set api_base_url <url>[/cyan]"
         )
         raise typer.Exit(code=1) from None
     except httpx.HTTPError as e:
-        rprint(f"[red]✗ 网络错误[/red]: {e}")
+        rprint(f"[red]✗ Network error[/red]: {e}")
         raise typer.Exit(code=1) from None
     if resp.status_code == 404:
         return None
@@ -229,7 +229,7 @@ def cli_me() -> dict[str, Any]:
 
 def require_login() -> dict[str, Any]:
     if not credentials.get_token():
-        rprint("[red]✗ 需要先登录[/red]: 运行 [cyan]agent-skills login[/cyan]")
+        rprint("[red]✗ Login required[/red]: Run [cyan]agent-skills login[/cyan]")
         raise typer.Exit(code=1)
     return cli_me().get("user") or {}
 
@@ -267,7 +267,7 @@ def download_url(url: str) -> bytes:
         ) as c:
             resp = c.get(url)
     except httpx.HTTPError as e:
-        rprint(f"[red]✗ 下载失败[/red]: {e}")
+        rprint(f"[red]✗ Download failed[/red]: {e}")
         raise typer.Exit(code=1) from None
     _handle_error(resp)
     return resp.content

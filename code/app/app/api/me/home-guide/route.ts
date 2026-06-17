@@ -7,7 +7,7 @@ export const runtime = 'nodejs'
 
 export async function GET(req: NextRequest) {
   const user = getCurrentUserFromRequest(req)
-  if (!user) return apiError(401, 'unauthorized', '请先登录')
+  if (!user) return apiError(401, 'unauthorized', 'Log in first.')
 
   return NextResponse.json({
     completed: isHomeGuideCompleted(user.open_id),
@@ -16,17 +16,17 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   const user = getCurrentUserFromRequest(req)
-  if (!user) return apiError(401, 'unauthorized', '请先登录')
+  if (!user) return apiError(401, 'unauthorized', 'Log in first.')
 
   let body: { completed?: unknown } = {}
   try {
     body = (await req.json()) as { completed?: unknown }
   } catch {
-    return apiError(400, 'validation_failed', '需要 JSON body')
+    return apiError(400, 'validation_failed', 'JSON body is required')
   }
 
   if (typeof body.completed !== 'boolean') {
-    return apiError(400, 'validation_failed', 'completed 必须是 boolean')
+    return apiError(400, 'validation_failed', 'completed must be a boolean')
   }
 
   setHomeGuideCompleted(user.open_id, body.completed)

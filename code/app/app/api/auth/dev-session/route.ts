@@ -20,10 +20,10 @@ export async function POST(req: NextRequest) {
   try {
     body = (await req.json()) as { enabled?: unknown }
   } catch {
-    return apiError(400, 'validation_failed', '需要 JSON body')
+    return apiError(400, 'validation_failed', 'JSON body is required')
   }
   if (typeof body.enabled !== 'boolean') {
-    return apiError(400, 'validation_failed', 'enabled 必须是 boolean')
+    return apiError(400, 'validation_failed', 'enabled must be a boolean')
   }
 
   const enabled = body.enabled === true

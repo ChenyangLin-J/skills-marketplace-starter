@@ -108,15 +108,15 @@ export function HeroInstallCommand({ command }: HeroInstallCommandProps) {
         onClick={onCopy}
         onMouseEnter={hideFullCommand}
         onFocus={hideFullCommand}
-        aria-label={copied ? '已复制安装代码' : '复制安装代码'}
-        title={copied ? '已复制' : '复制代码'}
+        aria-label={copied ? 'Install command copied' : 'Copy install command'}
+        title={copied ? 'Copied' : 'Copy command'}
       >
         <Icon size={14} strokeWidth={2.2} aria-hidden="true" />
-        <span>{copied ? '已复制' : '复制'}</span>
+        <span>{copied ? 'Copied' : 'Copy'}</span>
       </button>
       {needsFullCommand && (
         <div className={`hero-install-popover${showFullCommand ? ' visible' : ''}`} role="tooltip">
-          <span>完整安装代码</span>
+          <span>Full install command</span>
           <code>{command}</code>
         </div>
       )}

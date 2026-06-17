@@ -5,9 +5,9 @@ export type InstallAccess = 'anonymous' | 'company' | 'restricted'
 export type SkillVisibility = 'listed' | 'unlisted' | 'restricted' | 'match_install_access'
 
 export const CATEGORIES: { value: Category; label: string; emoji: string }[] = [
-  { value: 'business', label: '业务', emoji: '💼' },
-  { value: 'tool', label: '工具', emoji: '🛠️' },
-  { value: 'method', label: '方法论', emoji: '🧭' },
+  { value: 'business', label: 'Business', emoji: '💼' },
+  { value: 'tool', label: 'Tools', emoji: '🛠️' },
+  { value: 'method', label: 'Methods', emoji: '🧭' },
   { value: 'cli', label: 'CLI', emoji: '⌨️' },
 ]
 

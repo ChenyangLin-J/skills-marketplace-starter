@@ -48,6 +48,31 @@ Result: passed.
 Note: Next/Turbopack emitted the existing NFT tracing warning for the download route.
 ```
 
+## Starter Favicon Refresh
+
+Date: 2026-06-17
+
+Scope:
+
+```text
+Replaced the starter favicon with a green Skills Marketplace monogram.
+Versioned the favicon URL as /favicon.svg?v=starter-green to avoid stale browser cache.
+```
+
+Checks:
+
+```text
+curl -sS 'http://localhost:3102/favicon.svg?v=starter-green'
+Result: returned the new dark green SVG.
+
+Browser head links:
+- rel="shortcut icon" href="/favicon.svg?v=starter-green"
+- rel="icon" href="/favicon.svg?v=starter-green"
+
+npm run lint
+Result: passed.
+```
+
 CLI:
 
 ```text
@@ -126,4 +151,137 @@ Web/API:
 curl 'http://localhost:3101/api/skills?limit=10'
 Result: total = 4
 Seed slugs include @community/marketplace-guide and @community/skill-creator.
+```
+
+## Open Source Homepage Style Refresh
+
+Date: 2026-06-17
+
+Web:
+
+```text
+cd code/app
+npm run lint
+Result: passed.
+
+npm run build
+Result: passed.
+Note: Next/Turbopack emitted the existing NFT tracing warning for the download route.
+```
+
+Browser preview:
+
+```text
+URL: http://localhost:3102/
+Title: Skills Marketplace Starter
+Visible hero content:
+- Open source starter kit
+- Self-host your agent skills marketplace
+- Install the marketplace helper into your agent
+- Trending this week
+- All Skills
+```
+
+
+## Full English Starter Pass
+
+Date: 2026-06-17
+
+Web:
+
+```text
+cd code/app
+npm run lint
+Result: passed.
+
+npm run build
+Result: passed.
+Note: Next/Turbopack emitted the existing NFT tracing warning for the download route.
+```
+
+CLI:
+
+```text
+cd code/cli
+uv run agent-skills --help
+Result: passed.
+uv run agent-skills publish --help
+Result: passed.
+uv run agent-skills access --help
+Result: passed.
+uv run agent-skills search --help
+Result: passed.
+python3 -m py_compile code/cli/src/agent_skills/*.py
+Result: passed.
+```
+
+Browser / HTML:
+
+```text
+URL: http://localhost:3102/
+<html lang="en">
+Homepage strings visible: English only.
+Seed Skill descriptions: English only.
+```
+
+Text scan:
+
+```text
+pattern='[\p{Han}]|z''h-CN'
+rg -n "$pattern" code/app code/cli docs skills README.md -S
+Result: no matches.
+```
+
+## Starter Detail And Docs Cleanup
+
+Date: 2026-06-17
+
+Scope:
+
+```text
+Removed starter docs screenshot/video placeholder support from tutorial pages.
+Removed bundled historical tutorial screenshots.
+Changed Skill detail page accent from warning yellow to the starter accent green.
+```
+
+Code scans:
+
+```text
+media_pattern='tutorials/screen''shots|video''Placeholder|Video place''holder|tutorial-''media|tutorial-inline-''image|screen''shot:'
+rg -n "$media_pattern" code/app docs skills -S
+Result: no matches.
+
+yellow_pattern='255, 241, ''204|f2''f0ec|--detail-accent: var\(--warn''ing\)|--detail-warm-rgb: 2''55'
+rg -n "$yellow_pattern" code/app/app code/app/components code/app/lib -S
+Result: no matches.
+
+pattern='[\p{Han}]|z''h-CN'
+rg -n "$pattern" code/app code/cli docs skills README.md -S
+Result: no matches.
+```
+
+Browser:
+
+```text
+URL: http://localhost:3102/skills/%40community%2Fmarketplace-guide
+Detail accent: #047857
+Detail accent RGB: 4, 120, 87
+
+URL: http://localhost:3102/docs/what-is-skill-marketplace
+Media strip count: 0
+Article image count: 0
+Video media marker text: false
+Screenshot path text: false
+```
+
+Web:
+
+```text
+cd code/app
+npm run lint
+Result: passed.
+
+npm run build
+Result: passed.
+Note: Next/Turbopack emitted the existing NFT tracing warning for the download route.
 ```

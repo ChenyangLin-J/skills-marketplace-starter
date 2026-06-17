@@ -4,10 +4,10 @@ import type { ReactNode } from 'react'
 import { useDevMode } from './DevModeContext'
 
 /**
- * 包裹 "v1.5 上线" 占位的客户端组件。
- * 默认 OFF（线上版视图）→ 隐藏；Dev Tools 切到 ON → 显示。
+ * Client wrapper for planned-feature placeholders.
+ * Default OFF: hidden in the clean starter view. Dev Tools can turn it on.
  *
- * 注意：未水合（hydrated === false）时按默认 false 处理，避免水合时短暂闪烁。
+ * Before hydration, render as false to avoid flicker and hydration drift.
  */
 export function DevPlaceholder({ children }: { children: ReactNode }) {
   const { showPlaceholders, hydrated } = useDevMode()

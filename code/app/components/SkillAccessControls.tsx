@@ -18,17 +18,17 @@ export function AccessGrantList({
   onRemove?: (handle: string) => void
 }) {
   if (handles.length === 0) {
-    return <p className="skill-access-grant-empty">暂无指定人员</p>
+    return <p className="skill-access-grant-empty">No selected users yet.</p>
   }
 
   return (
-    <ul className="skill-access-grant-list" aria-label="指定人员列表">
+    <ul className="skill-access-grant-list" aria-label="Selected users">
       {handles.map((handle) => (
         <li key={handle}>
           <span>@{handle}</span>
           {editable && onRemove && (
-            <button type="button" onClick={() => onRemove(handle)} aria-label={`移除 ${handle}`}>
-              移除
+            <button type="button" onClick={() => onRemove(handle)} aria-label={`Remove ${handle}`}>
+              Remove
             </button>
           )}
         </li>
@@ -59,7 +59,7 @@ export function AccessGrantEditor({
   handles,
   users,
   inputValue,
-  placeholder = '输入 handle 或搜索人员',
+  placeholder = 'Enter a handle or search users',
   onInputChange,
   onCommitInput,
   onAdd,
@@ -113,10 +113,10 @@ export function AccessGrantEditor({
             setSuggestionsOpen(false)
           }}
           placeholder={placeholder}
-          aria-label="添加指定人员"
+          aria-label="Add selected user"
         />
         {suggestionsOpen && (
-          <div className="skill-access-suggestions" role="listbox" aria-label="人员联想">
+          <div className="skill-access-suggestions" role="listbox" aria-label="User suggestions">
             {suggestions.length > 0 ? (
               suggestions.map((user) => (
                 <button
@@ -134,11 +134,11 @@ export function AccessGrantEditor({
                     <strong>{user.name || user.handle}</strong>
                     <em>@{user.handle}</em>
                   </span>
-                  <small>添加</small>
+                  <small>Add</small>
                 </button>
               ))
             ) : (
-              <div className="skill-access-suggestion-empty">没有匹配人员，可直接输入 handle</div>
+              <div className="skill-access-suggestion-empty">No matching users. You can enter a handle directly.</div>
             )}
           </div>
         )}

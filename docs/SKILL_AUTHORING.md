@@ -92,10 +92,10 @@ For important Skills, keep a few positive and negative examples:
 
 | Type | Example |
 | --- | --- |
-| Should trigger | `Skills 市场有什么？` |
-| Should trigger | `我要写一份项目报告` |
-| Should trigger | `这个 Skill 不触发，帮我反馈` |
-| Should not trigger | `当前会话已经加载了哪些 skill？` |
-| Should not trigger | `帮我写一个普通 Python 函数` |
+| Should trigger | `What skills are available in the marketplace?` |
+| Should trigger | `I need to write a project report` |
+| Should trigger | `This Skill did not trigger; help me send feedback` |
+| Should not trigger | `Which skills are already loaded in this session?` |
+| Should not trigger | `Help me write a plain Python function` |
 
 Record the agent, prompt, expected behavior, actual behavior, and evidence when you test.

@@ -23,7 +23,7 @@ def _should_skip(path: Path) -> bool:
 def package_dir(src: Path) -> Path:
     src = src.resolve()
     if not src.is_dir():
-        raise ValueError(f"不是目录: {src}")
+        raise ValueError(f"Not a directory: {src}")
 
     tmp = tempfile.NamedTemporaryFile(
         prefix=f"{src.name}-", suffix=".zip", delete=False

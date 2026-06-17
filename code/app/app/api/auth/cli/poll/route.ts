@@ -9,12 +9,12 @@ export async function POST(req: NextRequest) {
   try {
     body = (await req.json()) as { device_code?: string }
   } catch {
-    return apiError(400, 'validation_failed', '需要 JSON body')
+    return apiError(400, 'validation_failed', 'JSON body is required')
   }
 
   const deviceCode = String(body.device_code || '').trim()
   if (!deviceCode) {
-    return apiError(400, 'validation_failed', '缺少 device_code')
+    return apiError(400, 'validation_failed', 'Missing device_code')
   }
 
   const result = pollCliLoginRequest(deviceCode)
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     )
   }
   if (result.status !== 'ok') {
-    return apiError(400, `cli_login_${result.status}`, 'CLI 登录请求已失效，请重新运行 agent-skills login')
+    return apiError(400, `cli_login_${result.status}`, 'The CLI login request expired. Run agent-skills login again.')
   }
 
   return NextResponse.json({

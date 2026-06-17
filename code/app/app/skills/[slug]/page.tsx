@@ -53,13 +53,13 @@ export default async function DetailPage({
   const readmeNode = skill.readme ? (
     <ReactMarkdown remarkPlugins={[remarkGfm]}>{skill.readme}</ReactMarkdown>
   ) : (
-    <p style={{ color: 'var(--text-muted)' }}>(无 SKILL.md 正文)</p>
+    <p style={{ color: 'var(--text-muted)' }}>(No SKILL.md body)</p>
   )
 
   const tabs: DetailTab[] = [
     {
       key: 'detail',
-      label: '详情',
+      label: 'Details',
       panel: (
         <div className="detail-body">
           <div className="detail-body-main markdown-body" data-toc-target="true">
@@ -68,22 +68,21 @@ export default async function DetailPage({
           <aside className="detail-body-toc">
             <Toc markdown={skill.readme || ''} />
           </aside>
-          {/* 窄屏(< 1300)用抽屉,展开位置和宽屏 TOC 一致 */}
           <TocDrawer markdown={skill.readme || ''} mobileOnly />
         </div>
       ),
     },
     {
       key: 'files',
-      label: `文件 (${files.filter((file) => !file.isDirectory).length})`,
+      label: `Files (${files.filter((file) => !file.isDirectory).length})`,
       panel: <SkillFilesPanel files={files} />,
     },
     {
       key: 'example',
-      label: '示例',
+      label: 'Example',
       panel: (
         <div>
-          <h3 style={{ fontSize: 16, marginBottom: 12, fontWeight: 600 }}>使用示例</h3>
+          <h3 style={{ fontSize: 16, marginBottom: 12, fontWeight: 600 }}>Usage example</h3>
           <div
             style={{
               background: 'var(--bg-card)',
@@ -99,7 +98,7 @@ export default async function DetailPage({
                 marginBottom: 8,
               }}
             >
-              在 Claude Code / Codex / Cursor 中输入：
+              Type this in Claude Code, Codex, or Cursor:
             </p>
             <pre
               style={{
@@ -112,7 +111,7 @@ export default async function DetailPage({
                 whiteSpace: 'pre-wrap',
               }}
             >
-              <code>{skill.example || '暂无示例'}</code>
+              <code>{skill.example || 'No example provided'}</code>
             </pre>
           </div>
           <p
@@ -122,14 +121,14 @@ export default async function DetailPage({
               fontSize: 13,
             }}
           >
-            💡 示例库 v1.5 增强：展示其他用户的真实使用场景
+            Example gallery placeholder: show real usage scenarios from other users.
           </p>
         </div>
       ),
     },
     {
       key: 'comments',
-      label: '评论 (0)',
+      label: 'Comments (0)',
       devOnly: true,
       panel: (
         <div>
@@ -143,11 +142,11 @@ export default async function DetailPage({
               fontSize: 13,
             }}
           >
-            还没有评论，做第一个吧 ❤
+            No comments yet.
           </div>
           <div style={{ marginTop: 24 }}>
             <textarea
-              placeholder="说点什么…"
+              placeholder="Write a comment..."
               disabled
               style={{
                 width: '100%',
@@ -171,7 +170,7 @@ export default async function DetailPage({
               }}
             >
               <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>
-                💬 评论功能 v1.5 上线
+                Comments are a placeholder feature.
               </span>
               <button
                 type="button"
@@ -186,7 +185,7 @@ export default async function DetailPage({
                   cursor: 'not-allowed',
                 }}
               >
-                发布评论
+                Post comment
               </button>
             </div>
           </div>
@@ -195,12 +194,12 @@ export default async function DetailPage({
     },
     {
       key: 'versions',
-      label: `版本 (${versions.length})`,
+      label: `Versions (${versions.length})`,
       panel: <SkillVersionsPanel versions={versions} />,
     },
     {
       key: 'feedback',
-      label: '反馈',
+      label: 'Feedback',
       panel: (
         <SkillFeedbackPanel
           slug={skill.slug}
@@ -214,7 +213,7 @@ export default async function DetailPage({
       ? [
           {
             key: 'manage',
-            label: '管理',
+            label: 'Manage',
             panel: <SkillManagePanel skill={skill} />,
           },
         ]
@@ -280,7 +279,7 @@ export default async function DetailPage({
 
           {isArchived && (
             <div className="skill-archived-banner">
-              这个 Skill 已下架，列表和搜索默认不展示，安装和下载会被拒绝。
+              This Skill is archived. It is hidden from listings and search by default, and install/download requests are rejected.
             </div>
           )}
 
@@ -296,7 +295,7 @@ export default async function DetailPage({
             }}
           >
             <span className="skill-detail-author-meta">
-              作者{' '}
+              Author{' '}
               <strong style={{ color: 'var(--text-primary)', marginLeft: 4 }}>
                 {author}
               </strong>
@@ -307,39 +306,39 @@ export default async function DetailPage({
               )}
             </span>
             <span>
-              分类{' '}
+              Category{' '}
               <strong style={{ color: 'var(--text-primary)', marginLeft: 4 }}>
                 {cat?.label ?? skill.category}
               </strong>
             </span>
             <span>
-              版本{' '}
+              Version{' '}
               <strong style={{ color: 'var(--text-primary)', marginLeft: 4 }}>
                 v{skill.version}
               </strong>
             </span>
             <span
-              title="按 OpenAI o200k_base 估算，含 frontmatter + 正文；不同模型 tokenizer 会略有差异。"
+              title="Estimated with OpenAI o200k_base, including frontmatter and body. Other model tokenizers may differ."
             >
               SKILL.md Tokens{' '}
               <strong style={{ color: 'var(--text-primary)', marginLeft: 4 }}>
-                约 {formatTokenCount(skillTokenCount)}
+                ~{formatTokenCount(skillTokenCount)}
               </strong>
             </span>
             <span>
-              装机{' '}
+              Installs{' '}
               <strong style={{ color: 'var(--text-primary)', marginLeft: 4 }}>
                 {skill.install_count}
               </strong>
             </span>
             <span>
-              本周{' '}
+              This week{' '}
               <strong style={{ color: 'var(--text-primary)', marginLeft: 4 }}>
                 +{skill.weekly_install_count}
               </strong>
             </span>
             <span>
-              更新{' '}
+              Updated{' '}
               <strong style={{ color: 'var(--text-primary)', marginLeft: 4 }}>
                 {formatRelativeTime(skill.updated_at)}
               </strong>
@@ -375,16 +374,16 @@ export default async function DetailPage({
 }
 
 function getBackTarget(from: string | undefined): { href: string; label: string } {
-  if (from === 'mine') return { href: '/mine', label: '返回我的' }
-  if (from === 'admin') return { href: '/admin', label: '返回权限目录' }
-  return { href: '/', label: '返回首页' }
+  if (from === 'mine') return { href: '/mine', label: 'Back to Mine' }
+  if (from === 'admin') return { href: '/admin', label: 'Back to Admin' }
+  return { href: '/', label: 'Back home' }
 }
 
 function SkillVersionsPanel({ versions }: { versions: SkillVersion[] }) {
   if (versions.length === 0) {
     return (
       <div className="skill-files-empty">
-        暂时没有版本记录。
+        No version history yet.
       </div>
     )
   }
@@ -393,21 +392,21 @@ function SkillVersionsPanel({ versions }: { versions: SkillVersion[] }) {
     <div className="skill-versions-panel">
       <div className="skill-versions-header">
         <div>
-          <h3>版本历史</h3>
-          <p>安装和下载默认使用当前版本；历史版本先保留记录。</p>
+          <h3>Version history</h3>
+          <p>Install and download use the current version by default. Historical versions are kept as records.</p>
         </div>
-        <span>{versions.length} 个版本</span>
+        <span>{versions.length} versions</span>
       </div>
       <div className="skill-versions-list">
         {versions.map((version) => (
           <div key={version.id} className="skill-version-row">
             <div className="skill-version-main">
               <strong>v{version.version}</strong>
-              {version.is_current && <span className="skill-version-current">当前</span>}
+              {version.is_current && <span className="skill-version-current">Current</span>}
             </div>
             <div className="skill-version-meta">
               <span>{formatRelativeTime(version.uploaded_at)}</span>
-              {version.uploaded_by && <span>上传者 @{version.uploaded_by}</span>}
+              {version.uploaded_by && <span>Uploaded by @{version.uploaded_by}</span>}
             </div>
           </div>
         ))}
@@ -420,7 +419,7 @@ function SkillFilesPanel({ files }: { files: SkillFileEntry[] }) {
   if (files.length === 0) {
     return (
       <div className="skill-files-empty">
-        暂时无法读取这个 Skill 的文件清单。
+        Could not read the file list for this Skill.
       </div>
     )
   }
@@ -429,10 +428,10 @@ function SkillFilesPanel({ files }: { files: SkillFileEntry[] }) {
     <div className="skill-files-panel">
       <div className="skill-files-header">
         <div>
-          <h3>文件结构</h3>
-          <p>来自当前版本安装包，用于快速判断这个 Skill 是否包含脚本、素材或参考文件。</p>
+          <h3>File structure</h3>
+          <p>From the current package, useful for checking whether the Skill includes scripts, assets, or references.</p>
         </div>
-        <span>{files.filter((file) => !file.isDirectory).length} 个文件</span>
+        <span>{files.filter((file) => !file.isDirectory).length} files</span>
       </div>
       <div className="skill-files-list">
         {files.map((file) => (

@@ -7,16 +7,16 @@ export type AccessOption<T extends string> = {
 }
 
 export const INSTALL_ACCESS_OPTIONS: AccessOption<InstallAccess>[] = [
-  { value: 'company', label: '登录用户可安装', detail: '默认内部 Skill；公司账号登录后可安装' },
-  { value: 'restricted', label: '指定人员可安装', detail: '只有作者、owner 和指定人员可安装' },
-  { value: 'anonymous', label: '所有人可安装', detail: '无需登录，适合 guide / bootstrap Skill' },
+  { value: 'company', label: 'Signed-in users can install', detail: 'Default. Any logged-in user can install it.' },
+  { value: 'restricted', label: 'Selected users can install', detail: 'Only the author, owner, and granted users can install it.' },
+  { value: 'anonymous', label: 'Anyone can install', detail: 'No login required. Useful for guide or bootstrap Skills.' },
 ]
 
 export const VISIBILITY_OPTIONS: AccessOption<SkillVisibility>[] = [
-  { value: 'listed', label: '公开展示', detail: '首页、搜索和详情页都可见' },
-  { value: 'match_install_access', label: '按安装权限可见', detail: '能安装的人才能看到' },
-  { value: 'unlisted', label: '仅链接可访问', detail: '不进列表，但知道链接可打开' },
-  { value: 'restricted', label: '指定人员可见', detail: '只有作者、owner 和指定人员可见' },
+  { value: 'listed', label: 'Listed', detail: 'Visible on the homepage, search, and detail pages.' },
+  { value: 'match_install_access', label: 'Match install access', detail: 'Only users who can install it can see it.' },
+  { value: 'unlisted', label: 'Unlisted link', detail: 'Hidden from lists, but available by direct link.' },
+  { value: 'restricted', label: 'Selected users only', detail: 'Only the author, owner, and granted users can see it.' },
 ]
 
 export function installAccessLabel(value: InstallAccess): string {

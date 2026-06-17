@@ -75,29 +75,29 @@ export function HomeHero({
     <section className={`home-hero${heroState === 'collapsing' ? ' home-hero-collapsing' : ''}`}>
       <div className="home-hero-inner">
         <div className="home-hero-copy">
-          <span className="hero-eyebrow">Take the best with you</span>
+          <span className="hero-eyebrow">Open source starter kit</span>
           <h1>
-            把团队能力，
+            Self-host your
             <br />
-            装进你的Agent
+            agent skills marketplace
           </h1>
           <p className="hero-lead">
-            把常用流程、工具调用、方法论和自动化脚本做成 Skill，一键调用，让你的 AI 工作流更顺手。
+            Publish reusable workflows as Skills, install them into local AI agents, and turn real failures into creator feedback.
           </p>
 
           <div className="hero-actions">
             <AnchorScrollLink className="hero-btn primary" href="/#explore">
-              浏览发布墙
+              Explore skills
             </AnchorScrollLink>
             <Link className="hero-btn" href="/docs">
-              阅读教程
+              Read docs
             </Link>
           </div>
 
           <div className="hero-meta-row">
             <span>{formatCount(skillCount)} Skills</span>
             <span>{formatCount(installCount)} Installs</span>
-            <span>Claude Code / Codex / Cursor</span>
+            <span>Codex / Claude / Cursor</span>
           </div>
         </div>
 
@@ -111,7 +111,7 @@ function HomeOnboardingGuide({ onComplete }: { onComplete: () => void }) {
   const [platform, setPlatform] = useState<Platform>('mac')
   const [guideTab, setGuideTab] = useState<GuideTab>('install')
   const [copied, setCopied] = useState(false)
-  const [copyLabel, setCopyLabel] = useState('复制安装内容')
+  const [copyLabel, setCopyLabel] = useState('Copy install command')
   const [hint, setHint] = useState('')
   const [showManualCommand, setShowManualCommand] = useState(false)
 
@@ -128,7 +128,7 @@ function HomeOnboardingGuide({ onComplete }: { onComplete: () => void }) {
   function selectPlatform(nextPlatform: Platform) {
     setPlatform(nextPlatform)
     setCopied(false)
-    setCopyLabel('复制安装内容')
+    setCopyLabel('Copy install command')
     setHint('')
     setShowManualCommand(false)
   }
@@ -149,29 +149,29 @@ function HomeOnboardingGuide({ onComplete }: { onComplete: () => void }) {
         window.addEventListener('blur', markTerminalLikelyOpened, { once: true })
         document.addEventListener('visibilitychange', markTerminalLikelyOpened, { once: true })
         window.location.href = 'ms-terminal:'
-        setCopyLabel('已复制，正在尝试打开终端...')
+        setCopyLabel('Copied, opening terminal...')
         setHint('')
 
         window.setTimeout(() => {
           window.removeEventListener('blur', markTerminalLikelyOpened)
           document.removeEventListener('visibilitychange', markTerminalLikelyOpened)
           if (terminalLikelyOpened || document.visibilityState !== 'visible') {
-            setCopyLabel('已复制')
-            setHint('如果终端没有运行命令，请回到这里重新复制。')
+            setCopyLabel('Copied')
+            setHint('If the command did not run, come back and copy it again.')
             return
           }
-          setCopyLabel('已复制，打开终端粘贴')
-          setHint('没有自动打开？请手动打开 PowerShell，粘贴刚才复制的内容运行。')
+          setCopyLabel('Copied, paste in terminal')
+          setHint('No terminal opened? Open PowerShell, paste the copied command, then press Enter.')
         }, 1500)
         return
       }
 
-      setCopyLabel('已复制，打开终端粘贴')
-      setHint('已复制。现在打开终端，粘贴刚才复制的内容并按回车。')
+      setCopyLabel('Copied, paste in terminal')
+      setHint('Open Terminal, paste the copied command, then press Enter.')
     } catch {
       setCopied(false)
-      setCopyLabel('重试复制')
-      setHint('请选中下面这段安装内容复制，再打开终端粘贴运行。')
+      setCopyLabel('Try copying again')
+      setHint('Copy the command below manually, then paste it into your terminal.')
       setShowManualCommand(true)
     }
   }
@@ -179,8 +179,8 @@ function HomeOnboardingGuide({ onComplete }: { onComplete: () => void }) {
   const command = commandForPlatform(platform)
   const terminalHelp =
     platform === 'windows'
-      ? 'Windows 点开始菜单，搜索 PowerShell，然后打开它。'
-      : 'Mac 按 Command + 空格，搜索 Terminal 或“终端”。'
+      ? 'On Windows, open the Start menu, search PowerShell, then open it.'
+      : 'On macOS, press Command + Space and search Terminal.'
 
   return (
     <aside className="home-onboarding-panel">
@@ -189,14 +189,14 @@ function HomeOnboardingGuide({ onComplete }: { onComplete: () => void }) {
           <div className={`home-guide-pane${guideTab === 'install' ? ' active' : ''}`}>
             <div className="home-onboarding-head">
               <div>
-                <div className="home-onboarding-kicker">第一次使用</div>
-                <h2>先把市场助手装到你的 AI 工具里</h2>
-                <p>不用理解命令行，跟着复制、粘贴、回车就行。</p>
+                <div className="home-onboarding-kicker">First run</div>
+                <h2>Install the marketplace helper into your agent</h2>
+                <p>No CLI background required. Copy, paste, press Enter.</p>
               </div>
-              <span className="home-onboarding-time">约 2 分钟</span>
+              <span className="home-onboarding-time">~2 min</span>
             </div>
 
-            <div className="home-system-switch" aria-label="选择你的电脑系统">
+            <div className="home-system-switch" aria-label="Choose your operating system">
               <button
                 type="button"
                 className={`home-system-option${platform === 'mac' ? ' active' : ''}`}
@@ -229,43 +229,43 @@ function HomeOnboardingGuide({ onComplete }: { onComplete: () => void }) {
                 <span>{copyLabel}</span>
               </button>
               <p className={hint ? 'home-download-helper active' : 'home-download-helper'} aria-live="polite">
-                {hint || '能自动打开就会打开；没有打开也没关系，下一步会告诉你去哪粘贴。'}
+                {hint || 'We will try to open a terminal. If it does not open, the next step tells you where to paste.'}
               </p>
               {showManualCommand && (
                 <div className="home-manual-command">
-                  <div>如果复制失败，请选中下面这段内容复制：</div>
+                  <div>If copy fails, select this command manually:</div>
                   <code>{command}</code>
                 </div>
               )}
             </div>
 
             <div className="home-plain-steps">
-              <GuideStep number="1" title="打开终端" description={terminalHelp} />
+              <GuideStep number="1" title="Open Terminal" description={terminalHelp} />
               <GuideStep
                 number="2"
-                title="粘贴刚复制的内容，然后按回车"
-                description="看到让你选择工具时，选你平时用的 Codex / Claude / Cursor。"
+                title="Paste the copied command, then press Enter"
+                description="When the installer asks for a target, choose the agent you use: Codex, Claude, or Cursor."
               />
               <GuideStep
                 number="3"
-                title="打开你的 AI 工具，问一句试试"
-                description="如果没反应，重开一个新会话再问。"
+                title="Open your agent and ask one thing"
+                description="If it does not react in the current chat, start a fresh agent session and try again."
               />
             </div>
 
             <div className="home-example-strip">
-              <div className="home-example-title">装好以后可以这样问：</div>
+              <div className="home-example-title">After install, try asking:</div>
               <div className="home-example-list">
-                <span>Skills 市场有什么？</span>
-                <span>我要写一份项目报告</span>
-                <span>这个 Skill 不触发，帮我反馈</span>
+                <span>What skills are available?</span>
+                <span>I need to write a project report</span>
+                <span>This Skill did not trigger. Send feedback.</span>
               </div>
             </div>
 
             <div className="home-onboarding-foot">
-              <span>这套入门说明会放进教程里。</span>
+              <span>This starter flow is also available in the docs.</span>
               <button type="button" onClick={onComplete}>
-                已完成
+                Done
               </button>
             </div>
           </div>
@@ -273,69 +273,69 @@ function HomeOnboardingGuide({ onComplete }: { onComplete: () => void }) {
           <div className={`home-guide-pane${guideTab === 'use' ? ' active' : ''}`}>
             <div className="home-onboarding-head">
               <div>
-                <div className="home-onboarding-kicker">我们能做什么</div>
-                <h2>把常用能力装进你的 Agent</h2>
-                <p>不用记入口和流程，直接让 AI 按团队方式做事。</p>
+                <div className="home-onboarding-kicker">What it enables</div>
+                <h2>Give agents the context they keep missing</h2>
+                <p>Search, install, use, and improve Skills from the same local workflow.</p>
               </div>
-              <span className="home-onboarding-time">装好就问</span>
+              <span className="home-onboarding-time">Ask directly</span>
             </div>
 
             <div className="home-use-intro">
               <div className="home-prompt-list">
                 <PromptItem
-                  marker="问"
-                  title="“Skills 市场有什么？”"
-                  description="Agent 会先用 guide 查询市场，再帮你理解有哪些能力。"
+                  marker="1"
+                  title="“What skills are available?”"
+                  description="The agent can use the guide Skill to query the marketplace and explain what each Skill is for."
                 />
                 <PromptItem
-                  marker="装"
-                  title="“我要写一份项目报告”"
-                  description="Agent 可以搜索 report-writer，说明用途，并询问是否安装。"
+                  marker="2"
+                  title="“I need to write a project report.”"
+                  description="The agent can search for report-writer, explain the fit, and ask before installing it."
                 />
                 <PromptItem
-                  marker="用"
-                  title="“把这套经验做成 Skill”"
-                  description="用 skill-creator 把触发场景、步骤和示例写成 SKILL.md。"
+                  marker="3"
+                  title="“Turn this workflow into a Skill.”"
+                  description="skill-creator helps convert triggers, steps, examples, and boundaries into SKILL.md."
                 />
                 <PromptItem
-                  marker="反馈"
-                  title="“这个 Skill 不触发，帮我反馈给作者”"
-                  description="用 CLI feedback 回流问题，作者可以集中查看和处理。"
+                  marker="4"
+                  title="“This Skill did not trigger. Send feedback.”"
+                  description="The CLI feedback loop gives maintainers concrete examples they can fix."
                 />
                 <PromptItem
-                  marker="改"
-                  title="“把这批反馈整理成 Skill 更新方案”"
-                  description="根据反馈修改触发词、示例和 reference，再发布新版。"
+                  marker="5"
+                  title="“Summarize these feedback items into an update plan.”"
+                  description="Creators can improve trigger wording, examples, references, then publish a new version."
                 />
               </div>
 
               <div className="home-use-tags">
-                <span>查市场</span>
-                <span>装能力</span>
-                <span>提反馈</span>
-                <span>整理反馈</span>
-                <span>更新 Skill</span>
-                <span>写报告</span>
+                <span>discover</span>
+                <span>install</span>
+                <span>feedback</span>
+                <span>iterate</span>
+                <span>publish</span>
+                <span>local agents</span>
               </div>
             </div>
 
             <div className="home-onboarding-foot">
-              <span>先装 guide，再让 Agent 带你找能力。</span>
+              <span>Install the guide first, then let your agent find the right capability.</span>
               <button type="button" onClick={onComplete}>
-                已了解
+                Got it
               </button>
             </div>
           </div>
         </div>
 
-        <div className="home-guide-rail" aria-label="切换首页新手内容">
+        <div className="home-guide-rail" aria-label="Switch starter guide content">
           <button
             type="button"
             className={guideTab === 'install' ? 'active' : ''}
             onClick={() => setGuideTab('install')}
             aria-pressed={guideTab === 'install'}
           >
-            安装教学
+            Install guide
           </button>
           <button
             type="button"
@@ -343,7 +343,7 @@ function HomeOnboardingGuide({ onComplete }: { onComplete: () => void }) {
             onClick={() => setGuideTab('use')}
             aria-pressed={guideTab === 'use'}
           >
-            我们能做什么
+            What it enables
           </button>
         </div>
       </div>

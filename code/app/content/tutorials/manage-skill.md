@@ -6,8 +6,6 @@ difficulty: beginner
 duration: 6 min
 category: Creating Skills
 order: 8
-screenshot: /tutorials/screenshots/skill-detail.png
-videoPlaceholder: Management flow recording placeholder.
 ---
 
 ## Login

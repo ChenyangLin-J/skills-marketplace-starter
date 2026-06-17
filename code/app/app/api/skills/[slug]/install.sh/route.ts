@@ -271,7 +271,7 @@ export async function GET(
   const slug = decodeSlug(raw)
   const currentUser = getAuthenticatedUserFromRequest(req)
   const skill = getSkillBySlug(slug, userIdOrAnonymous(currentUser))
-  if (!skill) return apiError(404, 'not_found', `skill ${slug} 不存在`)
+  if (!skill) return apiError(404, 'not_found', `skill ${slug} does not exist`)
   const decision = checkSkillVisibility(skill, currentUser)
   if (!decision.allowed) return apiError(decision.status, decision.code, decision.message)
 

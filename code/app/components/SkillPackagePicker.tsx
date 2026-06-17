@@ -104,7 +104,7 @@ export function SkillPackagePicker({ value, onChange, onError, disabled = false 
     try {
       const dirEntry = entries.find((entry) => entry.isDirectory)
       if (!dirEntry) {
-        onError('请拖入文件夹或 .zip 文件')
+        onError('Drop a folder or a .zip file.')
         return
       }
       const map = new Map<string, File>()
@@ -118,7 +118,7 @@ export function SkillPackagePicker({ value, onChange, onError, disabled = false 
       const zip = await packToZip(stripped, dirEntry.name || fallbackName)
       onChange(zip)
     } catch (err) {
-      onError(`打包文件夹失败: ${String(err)}`)
+      onError(`Failed to package folder: ${String(err)}`)
     } finally {
       setPacking(false)
     }
@@ -136,7 +136,7 @@ export function SkillPackagePicker({ value, onChange, onError, disabled = false 
       const zip = await packToZip(map, rootName)
       onChange(zip)
     } catch (err) {
-      onError(`打包文件夹失败: ${String(err)}`)
+      onError(`Failed to package folder: ${String(err)}`)
     } finally {
       setPacking(false)
     }
@@ -153,7 +153,7 @@ export function SkillPackagePicker({ value, onChange, onError, disabled = false 
       handleZipFile(first)
       return
     }
-    onError('请选择 .zip 文件,或用「选择文件夹」按钮上传未打包目录')
+    onError('Choose a .zip file, or use "Choose folder" to upload an unpacked directory.')
   }
 
   function clearFile() {
@@ -226,7 +226,7 @@ export function SkillPackagePicker({ value, onChange, onError, disabled = false 
         {packing ? (
           <div className="dropzone-empty">
             <div className="dropzone-icon">⏳</div>
-            <div className="dropzone-title">正在打包文件夹...</div>
+            <div className="dropzone-title">Packaging folder...</div>
           </div>
         ) : value ? (
           <div className="dropzone-file">
@@ -242,7 +242,7 @@ export function SkillPackagePicker({ value, onChange, onError, disabled = false 
                 e.stopPropagation()
                 clearFile()
               }}
-              aria-label="移除文件"
+              aria-label="Remove file"
               disabled={disabled}
             >
               x
@@ -251,7 +251,7 @@ export function SkillPackagePicker({ value, onChange, onError, disabled = false 
         ) : (
           <div className="dropzone-empty">
             <div className="dropzone-icon">⬆</div>
-            <div className="dropzone-title">拖拽 zip 或文件夹到这里</div>
+            <div className="dropzone-title">Drop a zip or folder here</div>
             <div className="dropzone-actions">
               <button
                 type="button"
@@ -262,7 +262,7 @@ export function SkillPackagePicker({ value, onChange, onError, disabled = false 
                 }}
                 disabled={disabled}
               >
-                选择 zip
+                Choose zip
               </button>
               <button
                 type="button"
@@ -273,11 +273,11 @@ export function SkillPackagePicker({ value, onChange, onError, disabled = false 
                 }}
                 disabled={disabled}
               >
-                选择文件夹
+                Choose folder
               </button>
             </div>
             <div className="dropzone-hint">
-              文件夹会在浏览器里自动打包成 zip · 需包含 SKILL.md · 最大 10MB
+              Folders are zipped in the browser · Must include SKILL.md · Max 10MB
             </div>
           </div>
         )}

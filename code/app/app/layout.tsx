@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   title: 'Skills Marketplace Starter',
   description: 'Self-hosted marketplace for AI agent skills',
   icons: {
-    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
-    shortcut: '/favicon.svg',
+    icon: [{ url: '/favicon.svg?v=starter-green', type: 'image/svg+xml' }],
+    shortcut: '/favicon.svg?v=starter-green',
   },
 }
 
@@ -21,7 +21,7 @@ export default function RootLayout({
   const currentUserPromise = getCurrentUserFromCookies()
 
   return (
-    <html lang="zh-CN" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body>
         <DevModeProvider>
           <Navbar />

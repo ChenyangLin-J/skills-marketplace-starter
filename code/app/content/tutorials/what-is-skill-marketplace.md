@@ -6,8 +6,6 @@ difficulty: beginner
 duration: 3 min
 category: Getting Started
 order: 1
-screenshot: /tutorials/screenshots/marketplace-home.png
-videoPlaceholder: Short overview recording placeholder.
 ---
 
 ## The Idea
@@ -21,8 +19,6 @@ A Skill can contain:
 - Scripts and assets that help an agent perform repeatable work.
 
 The Web app is for humans. The CLI is for agents and local setup. Together they let a team package knowledge once and reuse it across Codex, Claude Code, Cursor, Antigravity, or another compatible agent.
-
-![Marketplace home](/tutorials/screenshots/marketplace-home.png)
 
 ## The Loop
 

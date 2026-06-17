@@ -18,9 +18,9 @@ export async function GET(
   const { slug: raw } = await ctx.params
   const slug = decodeSlug(raw)
   const skill = getSkillBySlug(slug, userIdOrAnonymous(currentUser))
-  if (!skill) return apiError(404, 'not_found', `skill ${slug} 不存在`)
+  if (!skill) return apiError(404, 'not_found', `skill ${slug} does not exist`)
   if (skill.status === 'archived') {
-    return apiError(410, 'archived', '这个 Skill 已下架，不能继续下载或安装')
+    return apiError(410, 'archived', 'This Skill has been archived and cannot be downloaded or installed.')
   }
   const decision = checkSkillInstallAccess(skill, currentUser)
   if (!decision.allowed) return apiError(decision.status, decision.code, decision.message)
@@ -28,13 +28,13 @@ export async function GET(
   const row = getDb()
     .prepare('SELECT zip_path FROM skills WHERE slug = ?')
     .get(slug) as { zip_path: string } | undefined
-  if (!row) return apiError(404, 'not_found', `skill ${slug} 不存在`)
+  if (!row) return apiError(404, 'not_found', `skill ${slug} does not exist`)
 
   const abs = path.isAbsolute(row.zip_path)
     ? row.zip_path
     : path.resolve(process.cwd(), row.zip_path)
   if (!fs.existsSync(abs)) {
-    return apiError(404, 'not_found', `zip 文件丢失: ${row.zip_path}`, {
+    return apiError(404, 'not_found', `zip file is missing: ${row.zip_path}`, {
       slug,
       zip_path: row.zip_path,
       abs_path: abs,

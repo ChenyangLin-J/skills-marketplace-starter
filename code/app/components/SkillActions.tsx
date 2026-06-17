@@ -44,7 +44,7 @@ export function SkillActions({
   const [shareCopied, setShareCopied] = useState(false)
   const [authHint, setAuthHint] = useState<string | null>(null)
 
-  // skill 名（不带 @author/ 前缀）—— 用于本地解压目录
+  // Skill name without the @author/ prefix, used as the local extraction folder.
   const bareName = slug.includes('/') ? slug.split('/').slice(-1)[0] : slug
 
   const cliCmd = `agent-skills install ${slug}`
@@ -76,7 +76,7 @@ export function SkillActions({
 
   async function toggleLike() {
     if (isArchived) {
-      setAuthHint('这个 Skill 已下架，暂不能点赞')
+      setAuthHint('This Skill is archived and cannot be liked.')
       return
     }
     if (pending) return
@@ -91,7 +91,7 @@ export function SkillActions({
         setLiked(data.liked_by_me)
         setAuthHint(null)
       } else if (res.status === 401) {
-        setAuthHint('请先登录后再点赞')
+        setAuthHint('Sign in before liking this Skill.')
       }
     } finally {
       setPending(false)
@@ -100,11 +100,11 @@ export function SkillActions({
 
   function openInstallModal() {
     if (isArchived) {
-      setAuthHint('这个 Skill 已下架，暂不能安装')
+      setAuthHint('This Skill is archived and cannot be installed.')
       return
     }
     if (requiresInstallLogin && !isLoggedIn) {
-      setAuthHint('请先登录后再安装')
+      setAuthHint('Sign in before installing this Skill.')
       return
     }
     setAuthHint(null)
@@ -140,7 +140,7 @@ export function SkillActions({
             gap: 6,
           }}
         >
-          {isArchived ? '已下架' : '⬇ 安装到本地'}
+          {isArchived ? 'Archived' : 'Install locally'}
         </button>
 
         <button
@@ -173,7 +173,7 @@ export function SkillActions({
             fontSize: 13,
           }}
         >
-          {shareCopied ? '✓ 链接已复制' : '🔗 分享'}
+          {shareCopied ? 'Link copied' : 'Share'}
         </button>
       </div>
 
@@ -186,10 +186,9 @@ export function SkillActions({
         >
           <div className="install-modal">
             <h3 style={{ marginBottom: 12, fontSize: 16, fontWeight: 600 }}>
-              安装 <span style={{ fontFamily: 'var(--font-mono)' }}>{slug}</span>
+              Install <span style={{ fontFamily: 'var(--font-mono)' }}>{slug}</span>
             </h3>
 
-            {/* Tab 切换条 */}
             <div
               role="tablist"
               style={{
@@ -209,30 +208,29 @@ export function SkillActions({
                 active={installTab === 'script'}
                 onClick={() => setInstallTab('script')}
               >
-                一键脚本
+                One-click script
               </InstallTabButton>
               <InstallTabButton
                 active={installTab === 'download'}
                 onClick={() => setInstallTab('download')}
               >
-                直接下载
+                Direct download
               </InstallTabButton>
             </div>
 
-            {/* Panel 内容 */}
             {installTab === 'cli' && (
               <InstallPanel
-                hint="在终端运行以下命令（推荐，自动选目录）："
+                hint="Run this command in your terminal. Recommended because it picks the agent target for you:"
                 command={cliCmd}
                 copied={copiedTab === 'cli'}
                 onCopy={() => copyText(cliCmd, 'cli')}
                 footnote={
                   requiresInstallLogin ? (
                     <>
-                      CLI 安装前请先运行 <code>agent-skills login</code> 完成登录。
+                      Run <code>agent-skills login</code> before installing with the CLI.
                     </>
                   ) : (
-                    <>这个 Skill 支持免登录安装。</>
+                    <>This Skill supports anonymous install.</>
                   )
                 }
               />
@@ -240,7 +238,7 @@ export function SkillActions({
 
             {installTab === 'script' && (
               <InstallPanel
-                hint={useWindowsScript ? '粘贴到 PowerShell 运行，无需装 CLI：' : '粘贴到终端运行，无需装 CLI：'}
+                hint={useWindowsScript ? 'Paste this into PowerShell. No CLI install required:' : 'Paste this into your terminal. No CLI install required:'}
                 command={scriptCmd}
                 copied={copiedTab === 'script'}
                 onCopy={() => copyText(scriptCmd, 'script')}
@@ -248,13 +246,13 @@ export function SkillActions({
                 footnote={
                   requiresInstallLogin ? (
                     <>
-                      脚本会读取本机 CLI 登录态，并询问安装目标；支持输入 <code>1</code> /{' '}
-                      <code>12</code> / <code>all</code> 多选。
+                      The script reads your local CLI login and asks for install targets. You can enter <code>1</code> /{' '}
+                      <code>12</code> / <code>all</code>.
                     </>
                   ) : (
                     <>
-                      脚本会询问安装目标；支持输入 <code>1</code> / <code>12</code> /{' '}
-                      <code>all</code> 多选。
+                      The script asks for install targets. You can enter <code>1</code> / <code>12</code> /{' '}
+                      <code>all</code>.
                     </>
                   )
                 }
@@ -271,8 +269,8 @@ export function SkillActions({
                   }}
                 >
                   {requiresInstallLogin
-                    ? '下载 skill 的 zip 包（需要当前网页登录态）：'
-                    : '下载 skill 的 zip 包（无需登录）：'}
+                    ? 'Download the Skill zip with your current web session:'
+                    : 'Download the Skill zip anonymously:'}
                 </p>
                 <a
                   href={downloadUrl}
@@ -290,7 +288,7 @@ export function SkillActions({
                     textDecoration: 'none',
                   }}
                 >
-                  ⬇ 下载 zip
+                  Download zip
                 </a>
                 <p
                   style={{
@@ -299,8 +297,8 @@ export function SkillActions({
                     marginTop: 12,
                   }}
                 >
-                  下载后解压到 <code>~/.claude/skills/</code> 或对应 agent 目录。
-                  版本和作者信息在包内 <code>skill-marketplace.json</code>。
+                  After downloading, unzip it into <code>~/.claude/skills/</code> or the matching agent directory.
+                  Version and author metadata live in <code>skill-marketplace.json</code>.
                 </p>
               </div>
             )}
@@ -325,7 +323,7 @@ export function SkillActions({
                   fontSize: 13,
                 }}
               >
-                关闭
+                Close
               </button>
             </div>
           </div>
@@ -429,7 +427,7 @@ function InstallPanel({
             fontWeight: 500,
           }}
         >
-          {copied ? '✓ 已复制' : '📋 复制'}
+          {copied ? 'Copied' : 'Copy'}
         </button>
       </div>
       {footnote && (

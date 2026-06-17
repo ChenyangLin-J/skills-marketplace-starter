@@ -122,15 +122,15 @@ export function CopyCommand({ command, windowsCommand }: CopyCommandProps) {
         onClick={onCopy}
         onMouseEnter={hideFullCommand}
         onFocus={hideFullCommand}
-        aria-label={copied ? '已复制 CLI 安装代码' : '复制 CLI 安装代码'}
-        title={copied ? '已复制' : '复制代码'}
+        aria-label={copied ? 'CLI install command copied' : 'Copy CLI install command'}
+        title={copied ? 'Copied' : 'Copy command'}
       >
         <Icon size={14} strokeWidth={2.2} aria-hidden="true" />
-        <span>{copied ? '已复制' : '复制'}</span>
+        <span>{copied ? 'Copied' : 'Copy'}</span>
       </button>
       {needsFullCommand && (
         <div className={`hero-command-popover${showFullCommand ? ' visible' : ''}`} role="tooltip">
-          <span>完整 CLI 安装代码</span>
+          <span>Full CLI install command</span>
           <code>{activeCommand}</code>
         </div>
       )}

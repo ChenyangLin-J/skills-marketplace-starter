@@ -6,8 +6,6 @@ difficulty: beginner
 duration: 6 min
 category: Creating Skills
 order: 7
-screenshot: /tutorials/screenshots/publish-page.png
-videoPlaceholder: Publish flow recording placeholder.
 ---
 
 ## Prepare The Package
@@ -30,8 +28,6 @@ my-skill.zip
 4. Select category and tags.
 5. Add a short example prompt.
 6. Submit and inspect the detail page.
-
-![Publish page](/tutorials/screenshots/publish-page.png)
 
 ## Publish From CLI
 

@@ -25,7 +25,7 @@ const SEED_SKILLS: SeedSkill[] = [
     category: 'tool',
     tags: ['marketplace', 'cli', 'onboarding'],
     source: 'official',
-    example: 'Skills 市场有什么？',
+    example: 'What skills are available?',
   },
   {
     dir: 'skill-creator',
@@ -49,7 +49,7 @@ const SEED_SKILLS: SeedSkill[] = [
     category: 'business',
     tags: ['reports', 'writing'],
     source: 'user',
-    example: '我要写一份项目报告。',
+    example: 'I need to write a project report.',
   },
 ]
 

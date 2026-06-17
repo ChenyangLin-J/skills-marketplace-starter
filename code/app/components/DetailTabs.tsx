@@ -7,13 +7,13 @@ export type DetailTab = {
   key: string
   label: string
   panel: ReactNode
-  /** 标记为只在 dev mode 显示的 tab（如 v1.5 占位用的"评论 / 版本"） */
+  /** Marks a tab as dev-mode-only, such as planned Comments or Versions placeholders. */
   devOnly?: boolean
 }
 
 export function DetailTabs({ tabs, defaultKey }: { tabs: DetailTab[]; defaultKey?: string }) {
   const { showPlaceholders, hydrated } = useDevMode()
-  // SSR 阶段以及水合前：按"非 dev"视图渲染（避免水合错位）
+  // SSR and pre-hydration: render the non-dev view to avoid hydration drift.
   const visibleTabs = !hydrated || !showPlaceholders ? tabs.filter((t) => !t.devOnly) : tabs
 
   const [active, setActive] = useState(defaultKey ?? visibleTabs[0]?.key ?? '')

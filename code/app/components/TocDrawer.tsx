@@ -4,8 +4,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { attachIds, parseHeadings } from '@/lib/toc'
 
 /**
- * 右侧抽屉式 TOC:默认收起成一个小标签,hover/点击展开。
- * mobileOnly=true 时仅在 viewport < 1300 显示(B 方案用)
+ * Right-side drawer TOC. Collapsed by default, expands on hover/click.
+ * mobileOnly=true shows it only below viewport width 1300.
  */
 export function TocDrawer({
   markdown,
@@ -56,13 +56,13 @@ export function TocDrawer({
         type="button"
         className="toc-drawer-trigger"
         onClick={() => setOpen((v) => !v)}
-        aria-label={open ? '收起目录' : '展开目录'}
+        aria-label={open ? 'Collapse contents' : 'Expand contents'}
       >
         <span style={{ fontSize: 16 }}>📑</span>
-        <span className="toc-drawer-label">目录</span>
+        <span className="toc-drawer-label">Contents</span>
       </button>
-      <nav className="toc-drawer-panel" aria-label="目录">
-        <div className="toc-title">📑 目录</div>
+      <nav className="toc-drawer-panel" aria-label="Table of contents">
+        <div className="toc-title">📑 Contents</div>
         <ul className="toc-list">
           {headings.map((h) => (
             <li

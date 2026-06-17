@@ -35,7 +35,7 @@ async function readZip(buf: Buffer): Promise<JSZip> {
   try {
     zip = await JSZip.loadAsync(buf)
   } catch (e) {
-    throw new SkillParseError('invalid_zip', 'zip 文件无法读取，请重新打包后上传', {
+    throw new SkillParseError('invalid_zip', 'Could not read the zip file. Repackage it and upload again.', {
       zip: String(e),
     })
   }
@@ -51,7 +51,7 @@ function findSkillEntry(zip: JSZip) {
   })
 
   if (!skillEntry) {
-    throw new SkillParseError('missing_skill_md', 'zip 中找不到 SKILL.md')
+    throw new SkillParseError('missing_skill_md', 'SKILL.md was not found in the zip file.')
   }
   return skillEntry
 }
@@ -60,7 +60,7 @@ async function readSkillEntry(entry: JSZip.JSZipObject): Promise<string> {
   try {
     return await entry.async('string')
   } catch (e) {
-    throw new SkillParseError('invalid_zip', '无法读取 zip 中的 SKILL.md，请重新打包后上传', {
+    throw new SkillParseError('invalid_zip', 'Could not read SKILL.md from the zip file. Repackage it and upload again.', {
       zip: String(e),
     })
   }
@@ -70,7 +70,7 @@ function parseSkillMarkdown(raw: string) {
   try {
     return matter(raw)
   } catch (e) {
-    throw new SkillParseError('invalid_frontmatter', 'SKILL.md frontmatter 解析失败', {
+    throw new SkillParseError('invalid_frontmatter', 'Could not parse SKILL.md frontmatter.', {
       frontmatter: String(e),
     })
   }
@@ -104,13 +104,13 @@ export async function parseSkillZip(buf: Buffer): Promise<ParsedSkill> {
   const { name, description, version } = draft
 
   const errs: Record<string, string> = {}
-  if (!name) errs.name = 'frontmatter.name 必填'
-  else if (!NAME_RE.test(name)) errs.name = 'name 仅支持 [a-z0-9-]，长度 1-50'
-  if (!description) errs.description = 'frontmatter.description 必填'
-  if (!VERSION_RE.test(version)) errs.version = 'version 仅支持字母、数字、点、下划线、加号和短横线，长度 1-50'
+  if (!name) errs.name = 'frontmatter.name is required'
+  else if (!NAME_RE.test(name)) errs.name = 'name must match [a-z0-9-] and be 1-50 characters'
+  if (!description) errs.description = 'frontmatter.description is required'
+  if (!VERSION_RE.test(version)) errs.version = 'version may use letters, numbers, dots, underscores, plus signs, and hyphens, 1-50 characters'
 
   if (Object.keys(errs).length > 0) {
-    throw new SkillParseError('invalid_frontmatter', 'SKILL.md frontmatter 校验失败', errs)
+    throw new SkillParseError('invalid_frontmatter', 'SKILL.md frontmatter validation failed.', errs)
   }
 
   return {
@@ -132,8 +132,8 @@ export async function rewriteSkillZipVersion(
 ): Promise<{ buffer: Buffer; parsed: ParsedSkill }> {
   const cleanVersion = version.trim()
   if (!VERSION_RE.test(cleanVersion)) {
-    throw new SkillParseError('invalid_frontmatter', 'SKILL.md frontmatter 校验失败', {
-      version: 'version 仅支持字母、数字、点、下划线、加号和短横线，长度 1-50',
+    throw new SkillParseError('invalid_frontmatter', 'SKILL.md frontmatter validation failed.', {
+      version: 'version may use letters, numbers, dots, underscores, plus signs, and hyphens, 1-50 characters',
     })
   }
 
@@ -151,7 +151,7 @@ export async function rewriteSkillZipVersion(
     zip.file(skillEntry.name, nextRaw)
     nextBuffer = await zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' })
   } catch (e) {
-    throw new SkillParseError('invalid_zip', 'zip 文件改写失败，请重新打包后上传', {
+    throw new SkillParseError('invalid_zip', 'Could not rewrite the zip file. Repackage it and upload again.', {
       zip: String(e),
     })
   }
@@ -183,7 +183,7 @@ export async function rewriteSkillZipFrontmatter(
     zip.file(skillEntry.name, nextRaw)
     nextBuffer = await zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' })
   } catch (e) {
-    throw new SkillParseError('invalid_zip', 'zip 文件改写失败，请重新打包后上传', {
+    throw new SkillParseError('invalid_zip', 'Could not rewrite the zip file. Repackage it and upload again.', {
       zip: String(e),
     })
   }

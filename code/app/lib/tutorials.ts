@@ -13,8 +13,6 @@ export type Tutorial = {
   duration: string
   category: string
   order: number
-  screenshot?: string
-  videoPlaceholder?: string
   body: string
 }
 
@@ -46,10 +44,8 @@ function readTutorialFile(filename: string): Tutorial {
     audience: asAudience(parsed.data.audience),
     difficulty: asString(parsed.data.difficulty, 'beginner'),
     duration: asString(parsed.data.duration, '5 min'),
-    category: asString(parsed.data.category, '基础教程'),
+    category: asString(parsed.data.category, 'Basics'),
     order: asNumber(parsed.data.order),
-    screenshot: asString(parsed.data.screenshot) || undefined,
-    videoPlaceholder: asString(parsed.data.videoPlaceholder) || undefined,
     body: parsed.content.trim(),
   }
 }

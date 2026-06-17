@@ -9,7 +9,7 @@ export const runtime = 'nodejs'
 function html(title: string, body: string, status = 200): Response {
   return new Response(
     `<!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -32,7 +32,7 @@ function html(title: string, body: string, status = 200): Response {
 
 export async function GET(req: NextRequest) {
   const state = req.nextUrl.searchParams.get('state') || ''
-  if (!state) return apiError(400, 'validation_failed', '缺少 state')
+  if (!state) return apiError(400, 'validation_failed', 'Missing state')
 
   const currentUser = getCurrentUserFromRequest(req)
   if (!currentUser) {
@@ -44,12 +44,12 @@ export async function GET(req: NextRequest) {
 
   const result = approveCliLoginRequest(state, currentUser.open_id)
   if (result === 'ok') {
-    return html('CLI 登录成功', '可以回到终端继续使用 agent-skills 了。')
+    return html('CLI login successful', 'You can return to the terminal and continue using agent-skills.')
   }
 
   return html(
-    'CLI 登录失败',
-    '这次登录请求已过期或已经被使用。请回到终端重新运行 agent-skills login。',
+    'CLI login failed',
+    'This login request expired or was already used. Return to the terminal and run agent-skills login again.',
     400,
   )
 }

@@ -46,7 +46,7 @@ export function CategorySelect({
   value,
   onChange,
   disabled = false,
-  placeholder = '请选择...',
+  placeholder = 'Choose...',
 }: {
   value: Category | ''
   onChange: (value: Category | '') => void
@@ -108,7 +108,7 @@ export function TagInput({
               type="button"
               className="tag-chip-x"
               onClick={() => remove(tag)}
-              aria-label={`删除标签 ${tag}`}
+              aria-label={`Remove tag ${tag}`}
             >
               x
             </button>
@@ -135,7 +135,7 @@ export function TagInput({
               setInput('')
             }
           }}
-          placeholder={tags.length === 0 ? '例: sql / bq / 数据' : ''}
+          placeholder={tags.length === 0 ? 'e.g. sql / reports / automation' : ''}
           className="tag-input"
         />
       )}
@@ -158,7 +158,7 @@ export function ExampleTextarea({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       disabled={disabled}
-      placeholder={'例:\nSkills 市场有什么？\n会优先使用 marketplace-guide 查看当前 Skills Marketplace...'}
+      placeholder={'Example:\nWhat skills are available?\nUse marketplace-guide to inspect the current Skills Marketplace first...'}
     />
   )
 }
@@ -181,7 +181,7 @@ export function EmojiInput({
         onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
         maxLength={12}
-        placeholder="可选，例如 🧭"
+        placeholder="Optional, e.g. 🧭"
       />
       {error && <div className="metadata-error-text">{error}</div>}
     </>

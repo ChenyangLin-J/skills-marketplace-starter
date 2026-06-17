@@ -18,14 +18,14 @@ export async function GET(
   ctx: { params: Promise<{ slug: string }> },
 ) {
   const currentUser = getAuthenticatedUserFromRequest(req)
-  if (!currentUser) return apiError(401, 'unauthorized', '请先登录后再查看反馈')
+  if (!currentUser) return apiError(401, 'unauthorized', 'Log in before viewing feedback.')
 
   const { slug: raw } = await ctx.params
   const slug = decodeSlug(raw)
   const skill = getSkillBySlug(slug, currentUser.open_id)
-  if (!skill) return apiError(404, 'not_found', `skill ${slug} 不存在`)
+  if (!skill) return apiError(404, 'not_found', `skill ${slug} does not exist`)
   if (!canManageSkill(skill, currentUser)) {
-    return apiError(403, 'forbidden', '只有 Skill 管理者可以查看反馈')
+    return apiError(403, 'forbidden', 'Only Skill managers can view feedback.')
   }
 
   const items = listFeedbackForSkill(slug)
@@ -37,12 +37,12 @@ export async function POST(
   ctx: { params: Promise<{ slug: string }> },
 ) {
   const currentUser = getAuthenticatedUserFromRequest(req)
-  if (!currentUser) return apiError(401, 'unauthorized', '请先登录后再提交反馈')
+  if (!currentUser) return apiError(401, 'unauthorized', 'Log in before submitting feedback.')
 
   const { slug: raw } = await ctx.params
   const slug = decodeSlug(raw)
   const skill = getSkillBySlug(slug, currentUser.open_id)
-  if (!skill) return apiError(404, 'not_found', `skill ${slug} 不存在`)
+  if (!skill) return apiError(404, 'not_found', `skill ${slug} does not exist`)
   const decision = checkSkillVisibility(skill, currentUser)
   if (!decision.allowed) return apiError(decision.status, decision.code, decision.message)
 
@@ -58,7 +58,7 @@ export async function POST(
   try {
     body = await req.json()
   } catch {
-    return apiError(400, 'validation_failed', '需要 JSON body')
+    return apiError(400, 'validation_failed', 'JSON body is required')
   }
 
   const kind = typeof body.kind === 'string' ? body.kind.trim() : 'issue'
@@ -71,11 +71,11 @@ export async function POST(
   const source = body.source === 'cli' ? 'cli' : 'web'
 
   const errs: Record<string, string> = {}
-  if (!VALID_KINDS.has(kind)) errs.kind = 'kind 必须是 issue / suggestion / question / usage'
-  if (!message) errs.message = 'message 不能为空'
-  if (message.length > 4000) errs.message = 'message 最多 4000 字'
+  if (!VALID_KINDS.has(kind)) errs.kind = 'kind must be issue / suggestion / question / usage'
+  if (!message) errs.message = 'message cannot be empty'
+  if (message.length > 4000) errs.message = 'message must be 4000 characters or fewer'
   if (Object.keys(errs).length > 0) {
-    return apiError(400, 'validation_failed', '字段校验失败', errs)
+    return apiError(400, 'validation_failed', 'Field validation failed', errs)
   }
 
   const feedback = recordFeedback({

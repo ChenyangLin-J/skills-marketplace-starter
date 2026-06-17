@@ -2,9 +2,9 @@ import Link from 'next/link'
 import { listTutorials, type Tutorial, type TutorialAudience } from '@/lib/tutorials'
 
 const audienceLabels: Record<TutorialAudience, string> = {
-  all: '所有人',
-  user: '使用者',
-  creator: '创作者',
+  all: 'Everyone',
+  user: 'User',
+  creator: 'Creator',
 }
 
 export default function DocsPage() {
@@ -19,33 +19,33 @@ export default function DocsPage() {
         <section className="docs-hero">
           <div>
             <div className="docs-kicker">Learn</div>
-            <h1>Skill Marketplace 教程中心</h1>
+            <h1>Skills Marketplace Docs</h1>
             <p className="docs-lead">
-              从安装第一个 Skill 到发布团队能力，P0 教程已经按使用者和创作者路径整理好。
-              内容用 Markdown 维护，按角色路径快速进入。
+              Learn how to install your first Skill, publish reusable workflows, and close the feedback loop with agents.
+              Tutorials are maintained in Markdown and grouped by role.
             </p>
           </div>
-          <div className="docs-status-panel" aria-label="教程状态">
+          <div className="docs-status-panel" aria-label="Docs status">
             <span>P0 ready</span>
             <strong>{tutorials.length}</strong>
-            <p>篇基础教程</p>
+            <p>starter tutorials</p>
           </div>
         </section>
 
         <section className="docs-section">
           <div className="docs-section-head">
-            <h2>最快路径</h2>
-            <p>按你现在的角色直接开始。</p>
+            <h2>Fastest path</h2>
+            <p>Start with the path that matches your role.</p>
           </div>
           <div className="docs-path-grid">
             <LearningPath
-              title="我要使用 Skill"
-              description="适合只想安装、运行和排查现成 Skill 的同学。"
+              title="Use Skills"
+              description="For people who want to install, run, and troubleshoot existing Skills."
               tutorials={users}
             />
             <LearningPath
-              title="我要创建 Skill"
-              description="适合准备沉淀工作流、脚本、方法论并发布给团队的人。"
+              title="Create Skills"
+              description="For people turning workflows, scripts, methods, or team knowledge into publishable Skills."
               tutorials={creators}
             />
           </div>
@@ -55,7 +55,7 @@ export default function DocsPage() {
           <section className="docs-section" key={category}>
             <div className="docs-section-head">
               <h2>{category}</h2>
-              <p>{items.length} 篇教程</p>
+              <p>{items.length} tutorials</p>
             </div>
             <div className="tutorial-grid">
               {items.map((tutorial) => (
@@ -67,13 +67,13 @@ export default function DocsPage() {
 
         <div className="docs-actions">
           <Link className="hero-btn primary" href="/docs/what-is-skill-marketplace">
-            从第一篇开始
+            Start from the first guide
           </Link>
           <Link className="hero-btn" href="/#explore">
-            去发布墙
+            Explore Skills
           </Link>
           <Link className="hero-btn" href="/publish">
-            我要发布
+            Publish a Skill
           </Link>
         </div>
       </div>
@@ -116,7 +116,7 @@ function TutorialCard({ tutorial }: { tutorial: Tutorial }) {
       <p>{tutorial.description}</p>
       <div className="tutorial-card-footer">
         <span>{tutorial.difficulty}</span>
-        <span>阅读教程</span>
+        <span>Read guide</span>
       </div>
     </Link>
   )

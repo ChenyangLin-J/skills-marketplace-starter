@@ -12,10 +12,10 @@ import {
 const STORAGE_KEY = 'agent-skills:dev-mode'
 
 type DevModeContextValue = {
-  /** 是否显示 "v1.5 上线" 占位（默认 false：线上版的干净视图） */
+  /** Whether planned-feature placeholders are visible. Default false for the clean starter view. */
   showPlaceholders: boolean
   setShowPlaceholders: (v: boolean) => void
-  /** SSR / 首次水合是否完成。未完成时强制按默认 false 渲染，避免水合错位。 */
+  /** Whether SSR / first hydration is complete. Before hydration, force false to avoid drift. */
   hydrated: boolean
 }
 
@@ -25,8 +25,8 @@ const DevModeContext = createContext<DevModeContextValue>({
   hydrated: false,
 })
 
-// useSyncExternalStore: 服务器返回 false / null，客户端首次同步从 localStorage 读。
-// 这样既避免水合错位，也避免 useEffect 里 setState 引发的 lint 报错。
+// useSyncExternalStore: the server snapshot returns false/null; the client reads localStorage.
+// This avoids hydration drift and avoids a useEffect setState lint issue.
 function subscribe(callback: () => void): () => void {
   if (typeof window === 'undefined') return () => {}
   const onStorage = (e: StorageEvent) => {
@@ -45,12 +45,12 @@ function getStoredSnapshot(): boolean {
   }
 }
 
-// 服务器侧 / 水合前快照：固定 false（确保和客户端首次渲染一致）
+// Server / pre-hydration snapshot: fixed false to match the first client render.
 function getServerSnapshot(): boolean {
   return false
 }
 
-// 检测当前是否已水合：服务器返回 false，客户端渲染时返回 true。
+// Hydration detector: server returns false, client render returns true.
 function getHydratedSnapshot(): boolean {
   return true
 }
@@ -70,7 +70,7 @@ export function DevModeProvider({ children }: { children: ReactNode }) {
     getHydratedSnapshot,
     getServerHydratedSnapshot,
   )
-  // override 用于本 tab 内同步更新（localStorage 写入不会触发本 tab 的 'storage' 事件）。
+  // override keeps this tab in sync because localStorage writes do not trigger a storage event here.
   const [overrideValue, setOverrideValue] = useState<boolean | null>(null)
   const showPlaceholders = overrideValue !== null ? overrideValue : stored
 

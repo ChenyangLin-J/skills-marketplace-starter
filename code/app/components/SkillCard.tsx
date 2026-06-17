@@ -24,7 +24,7 @@ export function SkillCard({ skill, q = '' }: { skill: Skill; q?: string }) {
   const href = `/skills/${encodeURIComponent(skill.slug)}`
   return (
     <article className="skill-card">
-      <Link href={href} className="skill-card-overlay" aria-label={`查看 ${displayName}`} />
+      <Link href={href} className="skill-card-overlay" aria-label={`View ${displayName}`} />
       <div className="skill-card-header">
         <div className="skill-card-icon">{frontmatterIcon(skill)}</div>
         <div className="skill-card-info">

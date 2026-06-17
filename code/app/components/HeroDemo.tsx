@@ -44,15 +44,15 @@ export function HeroDemo({ skillCount, installCount }: HeroDemoProps) {
       <div className="hd-hero-inner">
         <span className="hd-eyebrow">Skills Marketplace Starter</span>
         <h1 className="hd-title">
-          把团队能力，<br />装进你的 Agent
+          Put team know-how<br />inside your agents
         </h1>
         <p className="hd-lead">
-          让 Claude / Codex / Cursor 直接用上团队沉淀的方法、模板和工作流，
-          一行命令装好。
+          Let Claude, Codex, and Cursor use your team&apos;s methods, templates,
+          and workflows with one install command.
         </p>
 
         <div className="hd-install">
-          <div className="hd-install-tabs" role="tablist" aria-label="选择系统">
+          <div className="hd-install-tabs" role="tablist" aria-label="Choose system">
             <button
               role="tab"
               aria-selected={platform === 'mac'}
@@ -78,17 +78,17 @@ export function HeroDemo({ skillCount, installCount }: HeroDemoProps) {
               type="button"
               className={`hd-install-copy${copied ? ' copied' : ''}`}
               onClick={onCopy}
-              aria-label="复制安装命令"
+              aria-label="Copy install command"
             >
               {copied ? (
                 <>
                   <Check size={14} strokeWidth={2.4} aria-hidden="true" />
-                  已复制
+                  Copied
                 </>
               ) : (
                 <>
                   <Copy size={14} strokeWidth={2.4} aria-hidden="true" />
-                  复制
+                  Copy
                 </>
               )}
             </button>
@@ -101,26 +101,26 @@ export function HeroDemo({ skillCount, installCount }: HeroDemoProps) {
             aria-expanded={showSteps}
           >
             <ChevronDown size={14} strokeWidth={2.2} aria-hidden="true" />
-            {showSteps ? '收起安装步骤' : '第一次用？看 3 步说明'}
+            {showSteps ? 'Hide setup steps' : 'First time? See 3 setup steps'}
           </button>
 
           {showSteps && (
             <ol className="hd-steps">
               <li>
-                <strong>打开终端</strong>
+                <strong>Open your terminal</strong>
                 <span>
                   {platform === 'windows'
-                    ? 'Windows 搜索 PowerShell 打开'
-                    : 'Mac 按 ⌘ + 空格，搜索 Terminal'}
+                    ? 'Search for PowerShell on Windows'
+                    : 'Press Command + Space on Mac, then search Terminal'}
                 </span>
               </li>
               <li>
-                <strong>粘贴命令，回车</strong>
-                <span>选择你的 AI 工具（Claude / Codex / Cursor）</span>
+                <strong>Paste the command and press Enter</strong>
+                <span>Choose your AI tool: Claude, Codex, or Cursor</span>
               </li>
               <li>
-                <strong>问一句试试</strong>
-                <span>“Skills 市场有什么？”</span>
+                <strong>Ask one question</strong>
+                <span>&quot;What skills are available?&quot;</span>
               </li>
             </ol>
           )}
@@ -137,7 +137,7 @@ export function HeroDemo({ skillCount, installCount }: HeroDemoProps) {
             </span>
           </div>
           <Link className="hd-meta-link" href="/#explore">
-            浏览发布墙 →
+            Browse Skills →
           </Link>
         </div>
       </div>
@@ -147,34 +147,34 @@ export function HeroDemo({ skillCount, installCount }: HeroDemoProps) {
 
 const FEATURES: { tag: string; title: string; desc: string }[] = [
   {
-    tag: '问',
-    title: '"Skills 市场有什么？"',
-    desc: 'Agent 先查市场，再解释每个 Skill 适合什么场景。',
+    tag: 'Ask',
+    title: '"What skills are available?"',
+    desc: 'The agent checks the marketplace first, then explains when each Skill fits.',
   },
   {
-    tag: '装',
-    title: '"我要写一份项目报告"',
-    desc: 'Agent 搜索 report-writer，说明用途，并询问是否安装。',
+    tag: 'Install',
+    title: '"I need to write a project report"',
+    desc: 'The agent searches for report-writing Skills, summarizes the fit, and asks before installing.',
   },
   {
-    tag: '用',
-    title: '"把这套经验做成 Skill"',
-    desc: '用 skill-creator 梳理触发词、步骤、示例和边界。',
+    tag: 'Create',
+    title: '"Turn this workflow into a Skill"',
+    desc: 'Use a Skill creator workflow to shape triggers, steps, examples, and boundaries.',
   },
   {
-    tag: '反馈',
-    title: '"这个 Skill 不触发，帮我反馈"',
-    desc: 'CLI feedback 回流问题，作者集中查看和处理。',
+    tag: 'Feedback',
+    title: '"This Skill did not trigger"',
+    desc: 'CLI feedback sends concrete issues back to creators for follow-up.',
   },
   {
-    tag: '改',
-    title: '"把反馈整理成 Skill 更新方案"',
-    desc: '根据真实反馈修改触发词、示例和 reference。',
+    tag: 'Improve',
+    title: '"Turn feedback into a Skill update"',
+    desc: 'Use real usage feedback to improve triggers, examples, and references.',
   },
   {
-    tag: '查',
-    title: '"哪些 Skill 需要更新？"',
-    desc: 'CLI 检查本地安装版本，并同步 marketplace 的新版。',
+    tag: 'Sync',
+    title: '"Which Skills need updates?"',
+    desc: 'The CLI checks local installed versions and syncs newer marketplace versions.',
   },
 ]
 
@@ -182,8 +182,8 @@ export function HeroDemoFeatures() {
   return (
     <section className="hd-features" aria-labelledby="hd-features-title">
       <div className="hd-features-head">
-        <h2 id="hd-features-title">装好以后可以这样用</h2>
-        <p>不用记入口和流程，直接让 AI 按团队方式做事。</p>
+        <h2 id="hd-features-title">Use it like this after setup</h2>
+        <p>No one has to memorize entry points. Agents can discover the right workflow.</p>
       </div>
       <div className="hd-features-grid">
         {FEATURES.map((f) => (

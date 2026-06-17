@@ -8,7 +8,7 @@ function slugify(text: string): string {
   return text
     .toLowerCase()
     .trim()
-    .replace(/[^\w一-龥]+/g, '-')
+    .replace(/[^\w-]+/g, '-')
     .replace(/^-+|-+$/g, '')
 }
 
@@ -38,7 +38,7 @@ export function parseHeadings(markdown: string): Heading[] {
   return out
 }
 
-/** 把 [data-toc-target] 容器内的 h2/h3 按顺序贴上 id + scroll-margin */
+/** Attach id and scroll-margin to h2/h3 nodes inside the [data-toc-target] container. */
 export function attachIds(headings: Heading[]): HTMLHeadingElement[] {
   const main = document.querySelector('[data-toc-target="true"]')
   if (!main) return []

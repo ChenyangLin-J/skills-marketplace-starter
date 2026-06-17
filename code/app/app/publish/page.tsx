@@ -47,10 +47,10 @@ type PublishAudience = 'company' | 'restricted' | 'anonymous' | 'unlisted'
 const SKILL_NAME_RE = /^[a-z0-9-]{1,50}$/
 
 const PUBLISH_AUDIENCE_OPTIONS: Array<AccessOption<PublishAudience>> = [
-  { value: 'company', label: '公司登录用户', detail: '默认选项。登录后能看到并安装。' },
-  { value: 'restricted', label: '指定人员', detail: '只有你和指定人员能看到并安装。' },
-  { value: 'anonymous', label: '所有人免登录', detail: '不需要登录也能安装，适合新手引导类 Skill。' },
-  { value: 'unlisted', label: '仅链接访问', detail: '不进列表，知道链接的人登录后可用。' },
+  { value: 'company', label: 'Signed-in users', detail: 'Default. Visible and installable after login.' },
+  { value: 'restricted', label: 'Selected users', detail: 'Only you and selected users can view and install it.' },
+  { value: 'anonymous', label: 'Public install', detail: 'Anyone can install without logging in.' },
+  { value: 'unlisted', label: 'Unlisted link', detail: 'Hidden from lists. People with the link can use it after login.' },
 ]
 
 function normalizeGrantHandle(raw: string): string {
@@ -257,15 +257,15 @@ export default function PublishPage() {
     setError(null)
 
     if (source !== 'upload') {
-      setError('当前来源 v1.5 上线,暂请使用「上传文件」')
+      setError('This source is planned for v1.5. Please use Upload file for now.')
       return
     }
     if (!file) {
-      setError('请选择 zip 文件')
+      setError('Choose a zip file.')
       return
     }
     if (preview.loading) {
-      setError('正在解析 SKILL.md，请稍等')
+      setError('Reading SKILL.md. Please wait.')
       return
     }
     if (preview.error) {
@@ -273,20 +273,20 @@ export default function PublishPage() {
       return
     }
     if (!skillName.trim()) {
-      setError('请补充 SKILL.md name')
+      setError('Add the SKILL.md name.')
       return
     }
     if (!SKILL_NAME_RE.test(skillName.trim())) {
-      setError('name 仅支持小写字母、数字和短横线，长度 1-50')
+      setError('name must use lowercase letters, numbers, and hyphens, 1-50 characters.')
       return
     }
     const finalDescription = displayDescription.trim() || skillDescription.trim()
     if (!finalDescription) {
-      setError('请补充这个 Skill 是做什么的')
+      setError('Describe what this Skill does.')
       return
     }
     if (!category) {
-      setError('请选择分类')
+      setError('Choose a category.')
       return
     }
 
@@ -365,12 +365,12 @@ export default function PublishPage() {
           fontSize: 13,
         }}
       >
-        ← 返回首页
+        ← Back home
       </Link>
 
-      <h1 style={{ fontSize: 28, fontWeight: 700, marginBottom: 8 }}>发布新 Skill</h1>
+      <h1 style={{ fontSize: 28, fontWeight: 700, marginBottom: 8 }}>Publish a Skill</h1>
       <p style={{ color: 'var(--text-secondary)', marginBottom: 24 }}>
-        把你的 skill 分享给团队。整个过程不超过 5 分钟。
+        Share reusable agent context with your workspace. The whole flow takes about five minutes.
       </p>
 
       <form
@@ -382,8 +382,8 @@ export default function PublishPage() {
           padding: 32,
         }}
       >
-        {/* 来源选择:仅 dev mode 显示 tabs (因为目前只有"上传文件"一个可用) */}
-        <FormField label="来源">
+        {/* Source selection: tabs are only visible in dev mode while upload is the active source. */}
+        <FormField label="Source">
           {showDevSources && (
             <div className="source-tabs">
               <button
@@ -391,21 +391,21 @@ export default function PublishPage() {
                 className={`source-tab${source === 'upload' ? ' active' : ''}`}
                 onClick={() => setSource('upload')}
               >
-                上传文件
+                Upload file
               </button>
               <button
                 type="button"
                 className={`source-tab${source === 'gitlab' ? ' active' : ''}`}
                 onClick={() => setSource('gitlab')}
               >
-                GitLab 地址
+                Git URL
               </button>
               <button
                 type="button"
                 className={`source-tab${source === 'paste' ? ' active' : ''}`}
                 onClick={() => setSource('paste')}
               >
-                粘贴内容
+                Paste content
               </button>
             </div>
           )}
@@ -418,7 +418,7 @@ export default function PublishPage() {
             <div>
               <input
                 type="text"
-                placeholder="https://gitlab.solvely.com/your-team/your-skill"
+                placeholder="https://github.com/your-org/your-skill"
                 disabled
                 style={{
                   width: '100%',
@@ -433,8 +433,8 @@ export default function PublishPage() {
               <div
                 style={{ marginTop: 4, fontSize: 12, color: 'var(--text-muted)' }}
               >
-                自动从 repo 拉取 SKILL.md 和资源文件,支持订阅 push 同步更新 ·{' '}
-                <strong>v1.5 上线</strong>
+                Pull SKILL.md and assets from a repository, with optional push sync ·{' '}
+                <strong>planned for v1.5</strong>
               </div>
             </div>
           )}
@@ -460,7 +460,7 @@ export default function PublishPage() {
               <div
                 style={{ marginTop: 4, fontSize: 12, color: 'var(--text-muted)' }}
               >
-                直接粘贴 SKILL.md 全文 · <strong>v1.5 上线</strong>
+                Paste a complete SKILL.md directly · <strong>planned for v1.5</strong>
               </div>
             </div>
           )}
@@ -472,40 +472,40 @@ export default function PublishPage() {
           <div className="publish-metadata-panel publish-core-panel">
             <div className="publish-metadata-head">
               <div>
-                <h3>确认发布信息</h3>
+                <h3>Confirm publish details</h3>
                 <p>
-                  已自动读取上传包。只需要确认别人能看懂、能正确使用的信息。
+                  The package was read automatically. Confirm the information people will use to understand it.
                 </p>
               </div>
               {preview.version && <span>v{preview.version}</span>}
             </div>
 
             {preview.loading ? (
-              <div className="publish-metadata-note">正在解析 SKILL.md...</div>
+              <div className="publish-metadata-note">Reading SKILL.md...</div>
             ) : preview.error ? (
               <div className="publish-metadata-error">{preview.error}</div>
             ) : (
               <>
                 <FormField
-                  label="名称"
-                  help="展示给同事看的名字，可以用中文。"
+                  label="Display name"
+                  help="A clear human-readable name for the marketplace card."
                   required
                 >
                   <input
                     className="metadata-input"
                     value={displayName}
                     onChange={(event) => setDisplayName(event.target.value)}
-                    placeholder="例如：数据字典与取数规范"
+                    placeholder="Data dictionary and SQL guide"
                     maxLength={40}
                   />
                 </FormField>
 
                 <FormField
-                  label="这个 Skill 是做什么的"
+                  label="What does this Skill do?"
                   help={
                     preview.missing.description
-                      ? '用同事能理解的话写清楚用途。'
-                      : '用同事能理解的话写清楚用途和适合场景。'
+                      ? 'Explain the use case in plain language.'
+                      : 'Explain the use case and when to use it in plain language.'
                   }
                   required
                 >
@@ -516,11 +516,11 @@ export default function PublishPage() {
                       setDisplayDescription(event.target.value)
                       setSkillDescription(event.target.value)
                     }}
-                    placeholder="例如：帮数分同学写归因报告，整理结论、证据和后续行动。"
+                    placeholder="Helps analysts write structured reports with conclusions, evidence, and follow-up actions."
                   />
                 </FormField>
 
-                <FormField label="谁可以使用" help="控制谁能看到并安装；发布后也可以在管理页修改。">
+                <FormField label="Who can use it?" help="Controls who can view and install it. You can change this later.">
                   <AccessOptionGroup
                     value={audience}
                     options={PUBLISH_AUDIENCE_OPTIONS}
@@ -529,7 +529,7 @@ export default function PublishPage() {
                 </FormField>
 
                 {grantsMatter && (
-                  <FormField label="指定人员" help="输入 handle 后按回车 / 空格 / 逗号添加。">
+                  <FormField label="Allowed users" help="Enter handles, then press Enter, Space, or comma to add them.">
                     <div className="skill-access-grant-panel">
                       <AccessGrantEditor
                         handles={grantHandles}
@@ -545,7 +545,7 @@ export default function PublishPage() {
                           setGrantHandles(grantHandles.filter((item) => item !== handle))
                         }
                         onAdd={(handle) => setGrantHandles(appendGrant(grantHandles, handle))}
-                        placeholder="输入 handle 或搜索人员，例如 demo"
+                        placeholder="Enter a handle or search users, for example demo"
                       />
                     </div>
                   </FormField>
@@ -558,18 +558,18 @@ export default function PublishPage() {
                     onClick={() => setAdvancedOpen((open) => !open)}
                     aria-expanded={advancedOpen}
                   >
-                    <span>{advancedOpen ? '收起更多展示信息' : '更多展示信息'}</span>
+                    <span>{advancedOpen ? 'Hide display details' : 'More display details'}</span>
                     <em>{advancedOpen ? '↑' : '↓'}</em>
                   </button>
 
                   {advancedOpen && (
                     <div className="publish-advanced-body">
                       <div className="publish-metadata-grid">
-                        <FormField label="分类" help="默认按业务知识发布，后续可在管理页调整。">
+                        <FormField label="Category" help="Defaults to business knowledge. You can adjust it later.">
                           <CategorySelect value={category} onChange={setCategory} />
                         </FormField>
 
-                        <FormField label="标签" help={`最多 ${MAX_TAGS} 个，回车 / 空格 / 逗号添加。`}>
+                        <FormField label="Tags" help={`Up to ${MAX_TAGS}. Press Enter, Space, or comma to add.`}>
                           <TagInput
                             tags={tags}
                             onChange={setTags}
@@ -580,8 +580,8 @@ export default function PublishPage() {
                       </div>
 
                       <FormField
-                        label="使用示例"
-                        help="可选。真实使用场景，让人一眼看懂能干什么。"
+                        label="Usage example"
+                        help="Optional. A concrete scenario that makes the Skill easy to understand."
                       >
                         <ExampleTextarea value={example} onChange={setExample} />
                       </FormField>
@@ -631,7 +631,7 @@ export default function PublishPage() {
               fontSize: 14,
             }}
           >
-            取消
+            Cancel
           </button>
           <button
             type="submit"
@@ -651,7 +651,7 @@ export default function PublishPage() {
               cursor: source !== 'upload' ? 'not-allowed' : pending ? 'wait' : 'pointer',
             }}
           >
-            {pending ? '发布中...' : '发布'}
+            {pending ? 'Publishing...' : 'Publish'}
           </button>
         </div>
       </form>
@@ -659,10 +659,9 @@ export default function PublishPage() {
       {overwrite && (
         <div className="install-modal-backdrop" onClick={() => setOverwrite(null)}>
           <div className="install-modal" onClick={(e) => e.stopPropagation()}>
-            <div style={{ fontSize: 22, marginBottom: 8 }}>✅ 新版本已发布</div>
+            <div style={{ fontSize: 22, marginBottom: 8 }}>✅ New version published</div>
             <p style={{ color: 'var(--text-secondary)', fontSize: 14, marginBottom: 16 }}>
-              你刚刚上传的 <code>{overwrite.slug}</code>{' '}
-              已更新为当前展示版本。
+              <code>{overwrite.slug}</code> was updated to the current marketplace version.
             </p>
             <div
               style={{
@@ -674,15 +673,15 @@ export default function PublishPage() {
                 fontFamily: 'var(--font-mono)',
               }}
             >
-              版本:{' '}
+              Version:{' '}
               <strong>
                 v{overwrite.previousVersion}
                 {overwrite.previousVersion !== overwrite.nextVersion
                   ? ` → v${overwrite.nextVersion}`
-                  : '(未变)'}
+                  : '(unchanged)'}
               </strong>
               <div style={{ color: 'var(--text-muted)', marginTop: 4, fontFamily: 'inherit' }}>
-                旧 zip 仍保留在服务器，按版本号归档。
+                Previous zip files are kept on the server by version.
               </div>
             </div>
             <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
@@ -698,7 +697,7 @@ export default function PublishPage() {
                   cursor: 'pointer',
                 }}
               >
-                留在本页
+                Stay here
               </button>
               <button
                 type="button"
@@ -714,7 +713,7 @@ export default function PublishPage() {
                   cursor: 'pointer',
                 }}
               >
-                查看详情页 →
+                View details →
               </button>
             </div>
           </div>
@@ -724,13 +723,13 @@ export default function PublishPage() {
       {versionConflict && (
         <div className="install-modal-backdrop" onClick={() => setVersionConflict(null)}>
           <div className="install-modal" onClick={(e) => e.stopPropagation()}>
-            <div style={{ fontSize: 22, marginBottom: 8 }}>⚠️ 版本已存在</div>
+            <div style={{ fontSize: 22, marginBottom: 8 }}>⚠️ Version already exists</div>
             <p style={{ color: 'var(--text-secondary)', fontSize: 14, marginBottom: 16 }}>
-              <code>{versionConflict.slug}</code> 当前已有 v{versionConflict.currentVersion}。
-              请填写一个新的版本号再发布。
+              <code>{versionConflict.slug}</code> already has v{versionConflict.currentVersion}.
+              Enter a new version number to publish.
             </p>
             <label style={{ display: 'block', fontSize: 13, fontWeight: 500, marginBottom: 8 }}>
-              新版本号
+              New version
             </label>
             <input
               value={versionInput}
@@ -748,8 +747,7 @@ export default function PublishPage() {
               }}
             />
             <p style={{ color: 'var(--text-muted)', fontSize: 12, lineHeight: 1.6, marginBottom: 16 }}>
-              平台会把保存版 zip 里的 <code>SKILL.md</code> version 改成这个值；
-              你的本地源文件也建议同步更新。
+              The saved zip will use this value in <code>SKILL.md</code>. Update your local source too.
             </p>
             <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
               <button
@@ -764,7 +762,7 @@ export default function PublishPage() {
                   cursor: 'pointer',
                 }}
               >
-                取消
+                Cancel
               </button>
               <button
                 type="button"
@@ -781,7 +779,7 @@ export default function PublishPage() {
                   cursor: pending || !versionInput.trim() ? 'not-allowed' : 'pointer',
                 }}
               >
-                {pending ? '发布中...' : '用新版本发布'}
+                {pending ? 'Publishing...' : 'Publish with new version'}
               </button>
             </div>
           </div>

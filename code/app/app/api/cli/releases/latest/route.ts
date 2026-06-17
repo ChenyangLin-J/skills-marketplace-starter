@@ -10,7 +10,7 @@ export async function GET() {
     return apiError(
       404,
       'release_not_found',
-      'CLI latest wheel 尚未构建，请先运行 release 脚本'
+      'The latest CLI wheel has not been built. Run the release script first.'
     )
   }
 

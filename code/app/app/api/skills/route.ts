@@ -96,12 +96,12 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const currentUser = getAuthenticatedUserFromRequest(req)
   if (!currentUser) {
-    return apiError(401, 'unauthorized', '请先登录后再发布 Skill')
+    return apiError(401, 'unauthorized', 'Log in before publishing a Skill.')
   }
 
   const ct = req.headers.get('content-type') || ''
   if (!ct.includes('multipart/form-data')) {
-    return apiError(400, 'validation_failed', '需要 multipart/form-data')
+    return apiError(400, 'validation_failed', 'multipart/form-data is required')
   }
 
   const form = await req.formData()
@@ -128,19 +128,19 @@ export async function POST(req: NextRequest) {
       : undefined
 
   const errs: Record<string, string> = {}
-  if (!file || !(file instanceof File)) errs.file = '缺少 file'
-  if (!category) errs.category = '缺少 category'
+  if (!file || !(file instanceof File)) errs.file = 'Missing file'
+  if (!category) errs.category = 'Missing category'
   else if (!VALID_CATEGORIES.has(category))
-    errs.category = `category 必须是 ${[...VALID_CATEGORIES].join(' / ')}`
+    errs.category = `category must be ${[...VALID_CATEGORIES].join(' / ')}`
   if (installAccess !== undefined && !INSTALL_ACCESS_VALUES.includes(installAccess as InstallAccess)) {
-    errs.install_access = `install_access 必须是 ${INSTALL_ACCESS_VALUES.join(' / ')}`
+    errs.install_access = `install_access must be ${INSTALL_ACCESS_VALUES.join(' / ')}`
   }
   if (visibility !== undefined && !SKILL_VISIBILITY_VALUES.includes(visibility as SkillVisibility)) {
-    errs.visibility = `visibility 必须是 ${SKILL_VISIBILITY_VALUES.join(' / ')}`
+    errs.visibility = `visibility must be ${SKILL_VISIBILITY_VALUES.join(' / ')}`
   }
 
   if (Object.keys(errs).length > 0) {
-    return apiError(400, 'validation_failed', '字段校验失败', errs)
+    return apiError(400, 'validation_failed', 'Field validation failed', errs)
   }
 
   const tags = tagsRaw
@@ -204,7 +204,7 @@ export async function POST(req: NextRequest) {
     return apiError(
       409,
       'version_conflict',
-      `版本 ${parsed.version} 已存在，请填写新的版本号后再发布`,
+      `Version ${parsed.version} already exists. Enter a new version before publishing.`,
       {
         slug,
         current_version: currentVersion,
@@ -217,7 +217,7 @@ export async function POST(req: NextRequest) {
   try {
     zipPath = saveSkillZip(author, parsed.name, parsed.version, buf)
   } catch (e) {
-    return apiError(500, 'server_error', `存储失败: ${String(e)}`)
+    return apiError(500, 'server_error', `Storage failed: ${String(e)}`)
   }
 
   const result = upsertSkill({

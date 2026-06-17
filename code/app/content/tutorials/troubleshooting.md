@@ -6,8 +6,6 @@ difficulty: beginner
 duration: 6 min
 category: Help
 order: 10
-screenshot: /tutorials/screenshots/error-states.png
-videoPlaceholder: Troubleshooting recording placeholder.
 ---
 
 ## CLI Is Missing

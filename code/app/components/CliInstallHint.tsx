@@ -37,7 +37,7 @@ export function CliInstallHint() {
           maxWidth: '100%',
         }}
       >
-        <span style={{ color: 'var(--text-secondary)' }}>🚀 第一次使用？</span>
+        <span style={{ color: 'var(--text-secondary)' }}>First time here?</span>
         <code
           style={{
             background: 'transparent',
@@ -54,7 +54,7 @@ export function CliInstallHint() {
         <button
           type="button"
           onClick={onCopy}
-          aria-label="复制命令"
+          aria-label="Copy command"
           style={{
             border: '1px solid var(--border)',
             background: 'var(--bg)',
@@ -66,7 +66,7 @@ export function CliInstallHint() {
             cursor: 'pointer',
           }}
         >
-          {copied ? '✓ 已复制' : '📋 复制'}
+          {copied ? 'Copied' : 'Copy'}
         </button>
       </div>
     </div>
